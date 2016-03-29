@@ -7,52 +7,31 @@ import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
+import sk.atris.netxms.confrepo.tests.service.TestEnvironment;
 
 public class ConfigMergerTest {
     private final NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
     private final ConfigMerger configMerger = ConfigMerger.getInstance();
 
-    private final DciSummaryTable originalDciSummaryTable = new DciSummaryTable("guid1", "title");
-    private final EppRule originalEppRule = new EppRule("guid2", "comment");
-    private final Event originalEvent = new Event("guid3", "name");
-    private final ObjectTool originalObjectTool = new ObjectTool("guid4", "name");
-    private final Script originalScript = new Script("guid5", "name");
-    private final Template originalTemplate = new Template("guid6", "name");
-    private final Trap originalTrap = new Trap("guid7", "description");
+    private final DciSummaryTable originalDciSummaryTable = TestEnvironment.getDciSummaryTable();
+    private final EppRule originalEppRule = TestEnvironment.getEppRule();
+    private final Event originalEvent = TestEnvironment.getEvent();
+    private final ObjectTool originalObjectTool = TestEnvironment.getObjectTool();
+    private final Script originalScript = TestEnvironment.getScript();
+    private final Template originalTemplate = TestEnvironment.getTemplate();
+    private final Trap originalTrap = TestEnvironment.getTrap();
 
     private final Revision originalRevision = new Revision("xml-code", "Revision message.");
     private final Revision newRevision = new Revision("xml-code-updated", "New revision message.");
 
     @Before
     public void environmentSetup() {
-        originalDciSummaryTable.addRevision(originalRevision);
-        originalEppRule.addRevision(originalRevision);
-        originalEvent.addRevision(originalRevision);
-        originalObjectTool.addRevision(originalRevision);
-        originalScript.addRevision(originalRevision);
-        originalTemplate.addRevision(originalRevision);
-        originalTrap.addRevision(originalRevision);
-
-        netxmsConfigRepository.addItem(originalDciSummaryTable);
-        netxmsConfigRepository.addItem(originalEppRule);
-        netxmsConfigRepository.addItem(originalEvent);
-        netxmsConfigRepository.addItem(originalObjectTool);
-        netxmsConfigRepository.addItem(originalScript);
-        netxmsConfigRepository.addItem(originalTemplate);
-        netxmsConfigRepository.addItem(originalTrap);
+        TestEnvironment.setup(originalRevision);
     }
 
     @After
     public void environmentCleaup() {
-        netxmsConfigRepository.clearAllConfig();
-
-        originalDciSummaryTable.clearAllRevisions();
-        originalEppRule.clearAllRevisions();
-        originalEvent.clearAllRevisions();
-        originalObjectTool.clearAllRevisions();
-        originalScript.clearAllRevisions();
-        originalTemplate.clearAllRevisions();
-        originalTrap.clearAllRevisions();
+        TestEnvironment.cleanup();
     }
 
     @Test
