@@ -24,6 +24,8 @@ public final class AvailableItemsSupplier {
     public String getAllAvailableItemsJson(NetxmsConfig netxmsConfig) {
         ObjectNode allItemsJson = jsonFactory.objectNode();
 
+        log.debug("Starting to prepare all available items JSON.");
+
         for (DciSummaryTable item : netxmsConfig.getRepository(DciSummaryTable.class).getShallowCopy()) {
             ArrayNode thisItemsRevisions = getItemRevisionsForJson(item);
 
@@ -94,6 +96,7 @@ public final class AvailableItemsSupplier {
             allItemsJson.with(NetxmsConfigSections.TRAPS.toString()).set(item.getGuid(), thisItemJson);
         }
 
+        log.debug("Finished preparing all available items JSON.");
         return allItemsJson.toString();
     }
 
