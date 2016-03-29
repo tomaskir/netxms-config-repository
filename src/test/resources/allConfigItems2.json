@@ -4,10 +4,12 @@
       "title": "Test",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -19,10 +21,12 @@
       "comments": "Generate alarm when MAC address change detected on interface",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -34,10 +38,12 @@
       "name": "SYS_NODE_ADDED",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -49,10 +55,12 @@
       "name": "Restart &agent",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -64,10 +72,12 @@
       "name": "DCI::SampleTransform",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -79,10 +89,12 @@
       "name": "Server Performance",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }
@@ -94,10 +106,12 @@
       "description": "Generic authenticationFailure trap",
       "instances": [
         {
+          "version": 2,
           "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "version": 1,
           "timestamp": "1",
           "comment": "test config push"
         }

@@ -12,12 +12,16 @@ public class Revision extends Entity {
     private final String revisionMessage;
 
     @Getter
+    private final int revisionVersion;
+
+    @Getter
     private final String timestamp;
 
     // Constructor
-    public Revision(String xmlCode, String revisionMessage) {
+    public Revision(String xmlCode, String revisionMessage, int revisionVersion) {
         this.xmlCode = xmlCode;
         this.revisionMessage = revisionMessage;
+        this.revisionVersion = revisionVersion;
 
         this.timestamp = String.valueOf(Instant.now().getEpochSecond());
     }

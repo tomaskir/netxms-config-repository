@@ -38,14 +38,21 @@ public class ItemRequestJsonParser {
         if (getItems.isArray()) {
             for (JsonNode item : getItems) {
                 String requestedGuid;
-                String requestedRevisionVersion;
+                int requestedRevisionVersion;
 
+                // protects against missing objects
                 try {
                     requestedGuid = item.get("guid").textValue();
-                    requestedRevisionVersion = item.get("version").textValue();
+                    requestedRevisionVersion = item.get("version").intValue();
                 } catch (NullPointerException e) {
                     log.warn("One of the objects inside the received 'get-items' request JSON didn't contain the 'guid' or 'version' values!");
                     throw new ItemRequestJsonParserException("One of the objects inside the request JSON didn't contain the 'guid' or 'version' values.");
+                }
+
+                // protects against objects being invalid types
+                if (requestedGuid == null || requestedRevisionVersion == 0) {
+                    log.warn("One of the objects inside the received 'get-items' request JSON contained an invalid 'guid' or 'version' value!");
+                    throw new ItemRequestJsonParserException("One of the objects inside the request JSON contained an invalid 'guid' or 'version' value.");
                 }
 
                 log.trace("Creating a new RequestedConfigItem object; guid '{}', revision version '{}'.", requestedGuid, requestedRevisionVersion);

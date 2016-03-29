@@ -51,7 +51,7 @@ public class ItemRequestJsonParserTest {
 
     @Test
     public void testValidRequestSingle() throws IOException, ItemRequestJsonParserException {
-        String inputJson = "{\"get-items\": [{\"guid\":\"\", \"version\":\"\"}]}";
+        String inputJson = "{\"get-items\": [{\"guid\":\"\", \"version\": 55555}]}";
 
         InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
 
@@ -60,12 +60,12 @@ public class ItemRequestJsonParserTest {
         assert requestedConfigItems.size() == 1;
 
         assert requestedConfigItems.get(0).getGuid().equals("");
-        assert requestedConfigItems.get(0).getRevisionVersion().equals("");
+        assert requestedConfigItems.get(0).getRequestedRevisionVersion() == 55555;
     }
 
     @Test
     public void testValidRequestMultiple() throws IOException, ItemRequestJsonParserException {
-        String inputJson = "{\"get-items\": [{\"guid\":\"1\", \"version\":\"1\"},{\"guid\":\"2\", \"version\":\"2\"}]}";
+        String inputJson = "{\"get-items\": [{\"guid\":\"1\", \"version\": 1},{\"guid\":\"2\", \"version\": 2}]}";
 
         InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
 
@@ -74,9 +74,9 @@ public class ItemRequestJsonParserTest {
         assert requestedConfigItems.size() == 2;
 
         assert requestedConfigItems.get(0).getGuid().equals("1");
-        assert requestedConfigItems.get(0).getRevisionVersion().equals("1");
+        assert requestedConfigItems.get(0).getRequestedRevisionVersion() == 1;
 
         assert requestedConfigItems.get(1).getGuid().equals("2");
-        assert requestedConfigItems.get(1).getRevisionVersion().equals("2");
+        assert requestedConfigItems.get(1).getRequestedRevisionVersion() == 2;
     }
 }

@@ -21,8 +21,8 @@ public class ConfigMergerTest {
     private final Template originalTemplate = TestEnvironment.getTemplate();
     private final Trap originalTrap = TestEnvironment.getTrap();
 
-    private final Revision originalRevision = new Revision("xml-code", "Revision message.");
-    private final Revision newRevision = new Revision("xml-code-updated", "New revision message.");
+    private final Revision originalRevision = new Revision("xml-code", "Revision message.", 1);
+    private final Revision newRevision = new Revision("xml-code-updated", "New revision message.", 2);
 
     @Before
     public void environmentSetup() {

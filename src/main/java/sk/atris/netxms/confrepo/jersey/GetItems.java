@@ -5,6 +5,7 @@ import org.jdom2.JDOMException;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.ItemRequestJsonParserException;
 import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
+import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 import sk.atris.netxms.confrepo.service.parser.ItemRequestJsonParser;
 import sk.atris.netxms.confrepo.service.supplier.ItemSupplier;
@@ -47,7 +48,7 @@ public final class GetItems {
 
         try {
             xmlString = itemSupplier.getItemsXml(requestedConfigItems);
-        } catch (ConfigItemNotFoundException | JDOMException | IOException | NoConfigItemsRequestedException e) {
+        } catch (ConfigItemNotFoundException | JDOMException | IOException | NoConfigItemsRequestedException | RevisionNotFoundException e) {
             log.info("Sending HTTP.400 in answer to '/get-items' POST.");
 
             if (e.getCause() != null)

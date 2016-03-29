@@ -14,6 +14,7 @@ import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
 import sk.atris.netxms.confrepo.enums.NetxmsGeneratedConfigXml;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
+import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
@@ -33,7 +34,7 @@ public final class ItemSupplier {
     private final SAXBuilder saxBuilder = new SAXBuilder();
     private final XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
 
-    public <T extends ConfigItem> String getItemsXml(List<RequestedConfigItem> requestedItems) throws ConfigItemNotFoundException, JDOMException, IOException, NoConfigItemsRequestedException {
+    public <T extends ConfigItem> String getItemsXml(List<RequestedConfigItem> requestedItems) throws ConfigItemNotFoundException, JDOMException, IOException, NoConfigItemsRequestedException, RevisionNotFoundException {
         log.debug("Starting to prepare requested configuration XML.");
 
         if (requestedItems.size() == 0) {
@@ -47,7 +48,7 @@ public final class ItemSupplier {
         for (RequestedConfigItem requestedItem : requestedItems) {
             T foundRequestedItem = netxmsConfigRepository.getConfigItemByGuid(requestedItem.getGuid());
 
-            addConfigItemToXml(xmlDoc, foundRequestedItem);
+            addConfigItemToXml(xmlDoc, foundRequestedItem, requestedItem.getRequestedRevisionVersion());
         }
 
         log.debug("Finished preparing requested configuration XML.");
@@ -87,9 +88,8 @@ public final class ItemSupplier {
         log.trace("Finished seeding the XML Document with NetXMS configuration elements.");
     }
 
-    private <T extends ConfigItem> void addConfigItemToXml(Document xmlDoc, T item) throws JDOMException, IOException {
-        // FIXME: fix this when versioning is implemented
-        Revision r = item.getLatestRevision();
+    private <T extends ConfigItem> void addConfigItemToXml(Document xmlDoc, T item, int requestedRevisionVersion) throws JDOMException, IOException, RevisionNotFoundException {
+        Revision r = item.getRevision(requestedRevisionVersion);
 
         log.trace("Building an Element object from the requested revision's XML string.");
         Document itemXml = saxBuilder.build(new StringReader(r.getXmlCode()));

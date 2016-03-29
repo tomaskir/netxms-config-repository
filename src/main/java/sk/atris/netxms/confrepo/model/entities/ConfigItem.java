@@ -3,6 +3,7 @@ package sk.atris.netxms.confrepo.model.entities;
 import lombok.Getter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +55,25 @@ public abstract class ConfigItem extends Entity {
     }
 
     @Synchronized
+    public final Revision getRevision(int requestedRevisionVersion) throws RevisionNotFoundException {
+        log.trace("Getting revision '{}' of a '{}' object.", requestedRevisionVersion, this.getClass().getSimpleName());
+
+        for (Revision r : revisions)
+            if (r.getRevisionVersion() == requestedRevisionVersion)
+                return r;
+
+        log.warn("Requested revision '{}' of config item '{}' was not found!", requestedRevisionVersion, guid);
+        throw new RevisionNotFoundException("Requested revision '" + requestedRevisionVersion + "' of config item '" + guid + "' not found!");
+    }
+
+    @Synchronized
     public final Revision getLatestRevision() {
         return revisions.get(revisions.size() - 1);
     }
 
     /**
      * Compare the provided GUID to the GUID of this ConfigItem
+     *
      * @param guid GUID to compare to this ConfigItem's GUID
      * @return boolean
      */

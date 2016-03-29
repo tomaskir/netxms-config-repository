@@ -110,7 +110,7 @@ public final class AvailableItemsSupplier {
 
             ObjectNode revision = jsonFactory.objectNode();
 
-            // TODO: add version here
+            revision.put("version", r.getRevisionVersion());
             revision.put("timestamp", r.getTimestamp());
             revision.put("comment", r.getRevisionMessage());
 

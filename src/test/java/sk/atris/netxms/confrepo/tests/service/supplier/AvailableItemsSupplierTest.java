@@ -48,7 +48,7 @@ public class AvailableItemsSupplierTest {
         // adjust the timestamp on all latest revisions to match the timestamp in the validation file
         adjustAllLastRevisionsTimestamp(netxmsConfig, "1");
 
-        Revision r = new Revision(null, "a newer revision");
+        Revision r = new Revision(null, "a newer revision", 2);
         addRevisionToAllConfigItems(netxmsConfig, r);
 
         // adjust the timestamp again, since we added a revision

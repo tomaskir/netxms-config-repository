@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
+import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 import sk.atris.netxms.confrepo.model.entities.Revision;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 import sk.atris.netxms.confrepo.service.supplier.ItemSupplier;
@@ -24,7 +25,8 @@ import java.util.List;
 public class ItemSupplierTest {
     private final ItemSupplier itemSupplier = ItemSupplier.getInstance();
 
-    private final Revision revision = new Revision("<test></test>", "Test revision.");
+    private final int revisionVersion = 1;
+    private final Revision revision = new Revision("<test></test>", "Test revision.", revisionVersion);
 
     @Before
     public void environmentSetup() {
@@ -37,23 +39,23 @@ public class ItemSupplierTest {
     }
 
     @Test(expected = NoConfigItemsRequestedException.class)
-    public void testNoRequestedItems() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException {
+    public void testNoRequestedItems() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException {
         itemSupplier.getItemsXml(new ArrayList<RequestedConfigItem>());
     }
 
     @Test
-    public void testFullGeneratedXml() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException {
+    public void testFullGeneratedXml() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException {
         List<RequestedConfigItem> requestedItems = new ArrayList<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getCompactFormat());
 
-        requestedItems.add(new RequestedConfigItem("guid1", ""));
-        requestedItems.add(new RequestedConfigItem("guid2", ""));
-        requestedItems.add(new RequestedConfigItem("guid3", ""));
-        requestedItems.add(new RequestedConfigItem("guid4", ""));
-        requestedItems.add(new RequestedConfigItem("guid5", ""));
-        requestedItems.add(new RequestedConfigItem("guid6", ""));
-        requestedItems.add(new RequestedConfigItem("guid7", ""));
+        requestedItems.add(new RequestedConfigItem("guid1", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid2", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid3", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid4", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid5", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid6", revisionVersion));
+        requestedItems.add(new RequestedConfigItem("guid7", revisionVersion));
 
         String rawGeneratedXmlString = itemSupplier.getItemsXml(requestedItems);
 
