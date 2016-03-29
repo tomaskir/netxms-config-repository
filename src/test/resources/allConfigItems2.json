@@ -26,7 +26,7 @@
     }
   },
   "events": {
-    "GUID missing!": {
+    "guid-1": {
       "name": "SYS_NODE_ADDED",
       "instances": [
         {
@@ -52,7 +52,7 @@
     }
   },
   "scripts": {
-    "GUID missing!": {
+    "guid-3": {
       "name": "DCI::SampleTransform",
       "instances": [
         {
@@ -78,7 +78,7 @@
     }
   },
   "traps": {
-    "GUID missing!": {
+    "guid-2": {
       "description": "Generic authenticationFailure trap",
       "instances": [
         {
