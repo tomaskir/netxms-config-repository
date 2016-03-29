@@ -14,11 +14,24 @@ public abstract class ConfigItem extends Entity {
     @Getter
     protected final String guid;
 
+    private int nextFreeRevisionVersion;
+
     // Constructor
     public ConfigItem(String guid) {
         log.trace("Creating a new '{}' object.", this.getClass().getSimpleName());
 
         this.guid = guid;
+        this.nextFreeRevisionVersion = 1;
+    }
+
+    /**
+     * Return the next free revision version for this config item.
+     *
+     * @return int
+     */
+    @Synchronized
+    public final int getNextFreeRevisionVersion() {
+        return nextFreeRevisionVersion++;
     }
 
     @Synchronized
