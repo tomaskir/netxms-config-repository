@@ -4,9 +4,11 @@
       "title": "Test",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -17,9 +19,11 @@
       "comments": "Generate alarm when MAC address change detected on interface",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -30,9 +34,11 @@
       "name": "SYS_NODE_ADDED",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -43,9 +49,11 @@
       "name": "Restart &agent",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -56,9 +64,11 @@
       "name": "DCI::SampleTransform",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -69,9 +79,11 @@
       "name": "Server Performance",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
@@ -82,9 +94,11 @@
       "description": "Generic authenticationFailure trap",
       "instances": [
         {
+          "timestamp": "2",
           "comment": "a newer revision"
         },
         {
+          "timestamp": "1",
           "comment": "test config push"
         }
       ]
