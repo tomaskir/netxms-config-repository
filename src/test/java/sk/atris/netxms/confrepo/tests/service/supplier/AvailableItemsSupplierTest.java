@@ -27,7 +27,7 @@ public class AvailableItemsSupplierTest {
         fis1.close();
 
         // adjust the timestamp on all latest revisions to match the timestamp in the validation file
-        adjustAllLastRevisionsTimestamp(netxmsConfig, "1");
+        adjustAllLastRevisionsTimestamp(netxmsConfig, 1);
 
         String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(netxmsConfig);
         JsonNode fromGeneratedString = mapper.readTree(generatedJsonString);
@@ -46,13 +46,13 @@ public class AvailableItemsSupplierTest {
         fis1.close();
 
         // adjust the timestamp on all latest revisions to match the timestamp in the validation file
-        adjustAllLastRevisionsTimestamp(netxmsConfig, "1");
+        adjustAllLastRevisionsTimestamp(netxmsConfig, 1);
 
         Revision r = new Revision(null, "a newer revision", 2);
         addRevisionToAllConfigItems(netxmsConfig, r);
 
         // adjust the timestamp again, since we added a revision
-        adjustAllLastRevisionsTimestamp(netxmsConfig, "2");
+        adjustAllLastRevisionsTimestamp(netxmsConfig, 2);
 
         String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(netxmsConfig);
         JsonNode fromGeneratedString = mapper.readTree(generatedJsonString);
@@ -64,7 +64,7 @@ public class AvailableItemsSupplierTest {
         assert fromGeneratedString.toString().equals(fromValidationFile.toString());
     }
 
-    private void adjustAllLastRevisionsTimestamp(NetxmsConfig netxmsConfig, String newTimestamp) throws NoSuchFieldException, IllegalAccessException {
+    private void adjustAllLastRevisionsTimestamp(NetxmsConfig netxmsConfig, long newTimestamp) throws NoSuchFieldException, IllegalAccessException {
         List<Revision> revisionList = new ArrayList<>();
 
         revisionList.add(netxmsConfig.getRepository(DciSummaryTable.class).getLastConfigItem().getLatestRevision());

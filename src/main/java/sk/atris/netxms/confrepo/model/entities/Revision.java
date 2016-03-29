@@ -15,7 +15,7 @@ public class Revision extends Entity {
     private final int revisionVersion;
 
     @Getter
-    private final String timestamp;
+    private final long timestamp;
 
     // Constructor
     public Revision(String xmlCode, String revisionMessage, int revisionVersion) {
@@ -23,7 +23,7 @@ public class Revision extends Entity {
         this.revisionMessage = revisionMessage;
         this.revisionVersion = revisionVersion;
 
-        this.timestamp = String.valueOf(Instant.now().getEpochSecond());
+        this.timestamp = Instant.now().getEpochSecond();
     }
 
     public boolean xmlEquals(Revision r) {
