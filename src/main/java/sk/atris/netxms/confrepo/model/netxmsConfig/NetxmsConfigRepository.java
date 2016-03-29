@@ -47,6 +47,6 @@ public final class NetxmsConfigRepository extends NetxmsConfig {
         }
 
         log.warn("Config item with GUID '{}' not found in the NetxmsConfigRepository.", guid);
-        throw new ConfigItemNotFoundException("Requested configuration item was not found in any repository!");
+        throw new ConfigItemNotFoundException("Requested configuration item '" + guid + "' was not found in any repository!");
     }
 }
