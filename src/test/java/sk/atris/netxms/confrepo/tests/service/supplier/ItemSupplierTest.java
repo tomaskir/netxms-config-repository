@@ -58,7 +58,7 @@ public class ItemSupplierTest {
         String rawGeneratedXmlString = itemSupplier.getItemsXml(requestedItems);
 
         Document generatedXmlDocument = saxBuilder.build(new StringReader(rawGeneratedXmlString));
-        Document validationXmlDocument = saxBuilder.build(new FileInputStream("src/test/resources/generated.xml"));
+        Document validationXmlDocument = saxBuilder.build(new FileInputStream("src/test/resources/generated_config.xml"));
 
         String generatedXmlString = xmlOutputter.outputString(validationXmlDocument);
         String validationXmlString = xmlOutputter.outputString(generatedXmlDocument);
