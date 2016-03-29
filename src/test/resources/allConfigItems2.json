@@ -1,0 +1,93 @@
+{
+  "dciSummaryTables": {
+    "c0d8fc76-1fee-4a84-9067-c332c1089989": {
+      "title": "Test",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "rules": {
+    "68a629ef-c645-49e5-8a7b-c5e79308080e": {
+      "comments": "Generate alarm when MAC address change detected on interface",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "events": {
+    "GUID missing!": {
+      "name": "SYS_NODE_ADDED",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "objectTools": {
+    "1223b7fe-2098-2a4d-8618-67bdb66a907e": {
+      "name": "Restart &agent",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "GUID missing!": {
+      "name": "DCI::SampleTransform",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "templates": {
+    "22a93d86-a72b-47e7-8178-0040548a3a47": {
+      "name": "Server Performance",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  },
+  "traps": {
+    "GUID missing!": {
+      "description": "Generic authenticationFailure trap",
+      "instances": [
+        {
+          "comment": "a newer revision"
+        },
+        {
+          "comment": "test config push"
+        }
+      ]
+    }
+  }
+}
