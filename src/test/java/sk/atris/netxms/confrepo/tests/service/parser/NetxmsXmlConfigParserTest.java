@@ -47,6 +47,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(EppRule.class).getLastConfigItem().getComment().equals("Generate alarm when MAC address change detected on interface");
 
         // events section parsing
+        assert receivedConfig.getRepository(Event.class).getLastConfigItem().getGuid().equals("guid-1");
         assert receivedConfig.getRepository(Event.class).getLastConfigItem().getName().equals("SYS_NODE_ADDED");
 
         // objectTools section parsing
@@ -54,6 +55,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(ObjectTool.class).getLastConfigItem().getName().equals("Restart &agent");
 
         // scripts section parsing
+        assert receivedConfig.getRepository(Script.class).getLastConfigItem().getGuid().equals("guid-3");
         assert receivedConfig.getRepository(Script.class).getLastConfigItem().getName().equals("DCI::SampleTransform");
 
         // templates section parsing
@@ -61,6 +63,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(Template.class).getLastConfigItem().getName().equals("Server Performance");
 
         // traps section parsing
+        assert receivedConfig.getRepository(Trap.class).getLastConfigItem().getGuid().equals("guid-2");
         assert receivedConfig.getRepository(Trap.class).getLastConfigItem().getDescription().equals("Generic authenticationFailure trap");
     }
 
@@ -79,6 +82,13 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(Script.class).getConfigItemCount() == 0;
         assert receivedConfig.getRepository(Template.class).getConfigItemCount() == 0;
         assert receivedConfig.getRepository(Trap.class).getConfigItemCount() == 0;
+    }
+
+    @Test(expected = NetxmsXmlConfigParserException.class)
+    public void testMissingGuidParsing() throws IOException, NetxmsXmlConfigParserException {
+        InputStream fis = new FileInputStream("src/test/resources/missing_guid_config.xml");
+        netxmsXmlConfigParser.parse(fis);
+        fis.close();
     }
 
     @Test(expected = NetxmsXmlConfigParserException.class)

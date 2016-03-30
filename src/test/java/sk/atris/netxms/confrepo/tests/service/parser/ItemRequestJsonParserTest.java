@@ -49,6 +49,42 @@ public class ItemRequestJsonParserTest {
         itemRequestJsonParser.parse(inputStream);
     }
 
+    @Test(expected = ItemRequestJsonParserException.class)
+    public void testMissingGuid() throws IOException, ItemRequestJsonParserException {
+        String inputJson = "{\"get-items\": [{\"version\": 1}]}";
+
+        InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
+
+        itemRequestJsonParser.parse(inputStream);
+    }
+
+    @Test(expected = ItemRequestJsonParserException.class)
+    public void testMissingVersion() throws IOException, ItemRequestJsonParserException {
+        String inputJson = "{\"get-items\": [{\"guid\": \"\"}]}";
+
+        InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
+
+        itemRequestJsonParser.parse(inputStream);
+    }
+
+    @Test(expected = ItemRequestJsonParserException.class)
+    public void testInvalidGuid() throws IOException, ItemRequestJsonParserException {
+        String inputJson = "{\"get-items\": [{\"guid\":1, \"version\": 1}]}";
+
+        InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
+
+        itemRequestJsonParser.parse(inputStream);
+    }
+
+    @Test(expected = ItemRequestJsonParserException.class)
+    public void testInvalidVersion() throws IOException, ItemRequestJsonParserException {
+        String inputJson = "{\"get-items\": [{\"guid\":\"\", \"version\": \"\"}]}";
+
+        InputStream inputStream = new ByteArrayInputStream(inputJson.getBytes());
+
+        itemRequestJsonParser.parse(inputStream);
+    }
+
     @Test
     public void testValidRequestSingle() throws IOException, ItemRequestJsonParserException {
         String inputJson = "{\"get-items\": [{\"guid\":\"\", \"version\": 55555}]}";
