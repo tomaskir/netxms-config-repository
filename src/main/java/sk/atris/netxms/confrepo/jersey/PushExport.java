@@ -1,6 +1,7 @@
 package sk.atris.netxms.confrepo.jersey;
 
 import lombok.extern.slf4j.Slf4j;
+import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
@@ -9,6 +10,7 @@ import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
@@ -18,10 +20,19 @@ import java.io.InputStream;
 public final class PushExport {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public Response postHandler(InputStream incomingData) {
+    public Response postHandler(@QueryParam("accessToken") String providedAccessToken, InputStream incomingData) {
         NetxmsConfig receivedNetxmsConfig;
 
         log.info("POST to '/push-export' received, processing it.");
+
+        try {
+            CheckAccessToken.getInstance().check(providedAccessToken);
+        } catch (AccessTokenInvalidException e) {
+            log.warn("A request to '/push-export' was made with an invalid or missing access token!");
+
+            log.info("Sending HTTP.403 in answer to '/push-export' POST.");
+            return Response.status(403).entity("Missing or invalid access token.").build();
+        }
 
         try {
             receivedNetxmsConfig = NetxmsXmlConfigParser.getInstance().parse(incomingData);
