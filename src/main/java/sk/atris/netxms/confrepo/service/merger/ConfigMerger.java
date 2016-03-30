@@ -82,7 +82,14 @@ public final class ConfigMerger {
 
             if (!latestRevisionXmlEquals(repoItem, item)) {
                 log.info("Adding a new revision to a '{}' config item with GUID '{}' in the NetxmsConfigRepository.", item.getClass().getSimpleName(), item.getGuid());
-                repoItem.addRevision(item.getLatestRevision());
+
+                // We can not just add the Revision object from the received item to the actual item, due to revision version uniqueness.
+                // So we get the Revision object of the received item...
+                Revision r = item.getLatestRevision();
+
+                // Now we can build a new Revision object here that has the values of the received Revision object,
+                // but with a correct version for the object in the config repository.
+                repoItem.addRevision(new Revision(r.getXmlCode(), r.getRevisionMessage(), repoItem.getNextFreeRevisionVersion()));
             }
         } catch (InstanceNotFoundException ignored) {
             log.info("Adding a new item with GUID '{}' to the '{}' repository of the NetxmsConfigRepository.", item.getGuid(),item.getClass().getSimpleName());
