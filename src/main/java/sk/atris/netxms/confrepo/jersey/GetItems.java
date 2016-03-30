@@ -27,7 +27,7 @@ public final class GetItems {
         log.info("POST to '/get-items' received, processing it.");
 
         try {
-            CheckAccessToken.getInstance().check(providedAccessToken);
+            ReadAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
             log.warn("A request to '/get-items' was made with an invalid or missing access token!");
 

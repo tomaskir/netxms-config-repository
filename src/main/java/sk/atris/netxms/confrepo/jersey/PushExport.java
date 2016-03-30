@@ -26,7 +26,7 @@ public final class PushExport {
         log.info("POST to '/push-export' received, processing it.");
 
         try {
-            CheckAccessToken.getInstance().check(providedAccessToken);
+            WriteAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
             log.warn("A request to '/push-export' was made with an invalid or missing access token!");
 

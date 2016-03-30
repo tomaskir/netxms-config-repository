@@ -4,20 +4,22 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
-import sk.atris.netxms.confrepo.model.util.AccessToken;
+import sk.atris.netxms.confrepo.model.token.ReadWriteAccessToken;
+
+// TODO: add tests
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class CheckAccessToken {
+class WriteAccessValidator {
     @Getter
-    private static final CheckAccessToken instance = new CheckAccessToken();
+    private static final WriteAccessValidator instance = new WriteAccessValidator();
 
-    private AccessToken applicationAccessToken = AccessToken.getInstance();
+    private String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
 
     final void check(String providedAccessToken) throws AccessTokenInvalidException {
-        if (providedAccessToken == null)
+        if (providedAccessToken == null || applicationReadWriteAccessToken == null)
             throw new AccessTokenInvalidException();
 
-        if (!providedAccessToken.equals(applicationAccessToken.getToken()))
+        if (!providedAccessToken.equals(applicationReadWriteAccessToken))
             throw new AccessTokenInvalidException();
     }
 }

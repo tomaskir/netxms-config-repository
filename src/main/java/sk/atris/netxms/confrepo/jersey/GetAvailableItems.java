@@ -23,7 +23,7 @@ public final class GetAvailableItems {
         log.info("GET to '/get-available-items' received, processing it.");
 
         try {
-            CheckAccessToken.getInstance().check(providedAccessToken);
+            ReadAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
             log.warn("A request to '/get-available-items' was made with an invalid or missing access token!");
 
