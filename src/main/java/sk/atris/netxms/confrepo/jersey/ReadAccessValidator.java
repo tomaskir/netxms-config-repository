@@ -14,8 +14,8 @@ class ReadAccessValidator {
     @Getter
     private static final ReadAccessValidator instance = new ReadAccessValidator();
 
-    private String applicationReadOnlyAccessToken = ReadOnlyAccessToken.getInstance().getToken();
-    private String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
+    private final String applicationReadOnlyAccessToken = ReadOnlyAccessToken.getInstance().getToken();
+    private final String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
 
     final void check(String providedAccessToken) throws AccessTokenInvalidException {
             if (providedAccessToken == null || (applicationReadOnlyAccessToken == null && applicationReadWriteAccessToken == null))

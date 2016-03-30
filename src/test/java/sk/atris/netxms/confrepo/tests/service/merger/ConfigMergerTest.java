@@ -30,7 +30,7 @@ public class ConfigMergerTest {
     }
 
     @After
-    public void environmentCleaup() {
+    public void environmentCleanup() {
         TestEnvironment.cleanup();
     }
 

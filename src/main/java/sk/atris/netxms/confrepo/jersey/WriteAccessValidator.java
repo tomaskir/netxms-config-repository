@@ -13,7 +13,7 @@ class WriteAccessValidator {
     @Getter
     private static final WriteAccessValidator instance = new WriteAccessValidator();
 
-    private String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
+    private final String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
 
     final void check(String providedAccessToken) throws AccessTokenInvalidException {
         if (providedAccessToken == null || applicationReadWriteAccessToken == null)

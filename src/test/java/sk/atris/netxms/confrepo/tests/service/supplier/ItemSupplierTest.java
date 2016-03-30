@@ -34,7 +34,7 @@ public class ItemSupplierTest {
     }
 
     @After
-    public void environmentCleaup() {
+    public void environmentCleanup() {
         TestEnvironment.cleanup();
     }
 
