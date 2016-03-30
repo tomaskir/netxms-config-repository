@@ -99,7 +99,7 @@ public final class NetxmsXmlConfigParser {
 
                 if (newConfigItemGuid == null) {
                     log.warn("A config item without a GUID was present in a received NetXMS configuration XML!");
-                    throw new NetxmsXmlConfigParserException("A config item without a GUID was present in the provided XML!");
+                    throw new NetxmsXmlConfigParserException("A config item without a GUID was present in the provided XML.");
                 }
 
                 switch (currentConfigSection) {
