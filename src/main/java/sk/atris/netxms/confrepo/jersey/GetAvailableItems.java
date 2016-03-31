@@ -1,7 +1,9 @@
 package sk.atris.netxms.confrepo.jersey;
 
 import lombok.extern.slf4j.Slf4j;
+import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
+import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.service.supplier.AvailableItemsSupplier;
 
@@ -29,6 +31,12 @@ public final class GetAvailableItems {
 
             log.info("Sending HTTP.403 in answer to '/get-available-items' GET.");
             return Response.status(403).entity("Missing or invalid access token.").build();
+        } catch (AccessTokenNotLoadedException e) {
+            String responseString = "No access tokens configured in '" + ApplicationConfiguration.CONFIG_FILE_NAME.toString() + "', or the file was not found. " +
+                    "Please configure a ReadOnly or ReadWrite token and restart the application.";
+
+            log.info("Sending HTTP.500 in answer to '/get-available-items' GET.");
+            return Response.status(500).entity(responseString).build();
         }
 
         responseJson = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());

@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

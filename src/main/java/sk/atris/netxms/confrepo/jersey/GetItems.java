@@ -2,6 +2,7 @@ package sk.atris.netxms.confrepo.jersey;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jdom2.JDOMException;
+import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 import sk.atris.netxms.confrepo.exceptions.*;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 import sk.atris.netxms.confrepo.service.parser.ItemRequestJsonParser;
@@ -33,6 +34,12 @@ public final class GetItems {
 
             log.info("Sending HTTP.403 in answer to '/get-items' POST.");
             return Response.status(403).entity("Missing or invalid access token.").build();
+        } catch (AccessTokenNotLoadedException e) {
+            String responseString = "No access tokens configured in '" + ApplicationConfiguration.CONFIG_FILE_NAME.toString() + "', or the file was not found. " +
+                    "Please configure a ReadOnly or ReadWrite token and restart the application.";
+
+            log.info("Sending HTTP.500 in answer to '/get-items' POST.");
+            return Response.status(500).entity(responseString).build();
         }
 
         try {
