@@ -1,4 +1,4 @@
-package sk.atris.netxms.confrepo.tests.service;
+package sk.atris.netxms.confrepo.tests;
 
 import lombok.Getter;
 import sk.atris.netxms.confrepo.model.entities.*;

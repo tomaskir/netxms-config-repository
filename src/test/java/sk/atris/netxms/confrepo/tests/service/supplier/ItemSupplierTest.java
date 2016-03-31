@@ -14,7 +14,7 @@ import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 import sk.atris.netxms.confrepo.model.entities.Revision;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 import sk.atris.netxms.confrepo.service.supplier.ItemSupplier;
-import sk.atris.netxms.confrepo.tests.service.TestEnvironment;
+import sk.atris.netxms.confrepo.tests.TestEnvironment;
 
 import java.io.FileInputStream;
 import java.io.IOException;

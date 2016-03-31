@@ -7,7 +7,7 @@ import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
-import sk.atris.netxms.confrepo.tests.service.TestEnvironment;
+import sk.atris.netxms.confrepo.tests.TestEnvironment;
 
 public class ConfigMergerTest {
     private final NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
