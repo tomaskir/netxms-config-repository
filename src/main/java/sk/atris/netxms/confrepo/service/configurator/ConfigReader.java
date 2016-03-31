@@ -53,5 +53,7 @@ public class ConfigReader {
 
         properties = new Properties();
         properties.load(fis);
+
+        fis.close();
     }
 }
