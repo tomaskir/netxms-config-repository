@@ -35,6 +35,20 @@ public class ConfigReaderTest {
     }
 
     @Test
+    public void testNoValueProperty1() {
+        String token = configReader.getReadWriteAccessToken("src/test/resources/no_value.properties");
+
+        assert token == null;
+    }
+
+    @Test
+    public void testNoValueProperty2() {
+        String token = configReader.getReadWriteAccessToken("src/test/resources/no_value.properties");
+
+        assert token == null;
+    }
+
+    @Test
     public void testReadWriteTokenLoading() {
         String token = configReader.getReadWriteAccessToken("src/test/resources/accessToken.properties");
 

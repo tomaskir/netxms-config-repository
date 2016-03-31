@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,41 +20,81 @@ public class ConfigReader {
 
     private Properties properties;
 
-    public String getReadOnlyAccessToken(String filepath) {
-        log.debug("Getting ReadOnly access token from '{}' property file.", filepath);
+    public String getReadOnlyAccessToken() {
+        String filename = ApplicationConfiguration.CONFIG_FILE_NAME.toString();
 
-        return getToken(filepath, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+        log.debug("Getting ReadOnly access token from '{}' property file on the classpath.", filename);
+
+        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+    }
+
+    public String getReadOnlyAccessToken(String filepath) {
+        log.debug("Getting ReadOnly access token from '{}' property file (explicit location).", filepath);
+
+        return getTokenFromFile(filepath, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+    }
+
+    public String getReadWriteAccessToken() {
+        String filename = ApplicationConfiguration.CONFIG_FILE_NAME.toString();
+
+        log.debug("Getting ReadWrite access token from '{}' property file on the classpath.", filename);
+
+        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
     }
 
     public String getReadWriteAccessToken(String filepath) {
-        log.debug("Getting ReadWrite access token from '{}' property file.", filepath);
+        log.debug("Getting ReadWrite access token from '{}' property file (explicit location).", filepath);
 
-        return getToken(filepath, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
+        return getTokenFromFile(filepath, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
     }
 
-    private String getToken(String filepath, String tokenName) {
+    private String getTokenFromClasspathFile(String filename, String tokenName) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
+        if (is == null) {
+            log.error("Error opening property file '{}'!", filename);
+            return null;
+        }
+
+        String token = getToken(is, tokenName);
+
         try {
-            loadProperties(filepath);
+            is.close();
+        } catch (IOException ignored) {
+        }
+
+        return token;
+    }
+
+    private String getTokenFromFile(String filepath, String tokenName) {
+        try (InputStream fis = new FileInputStream(filepath)) {
+            return getToken(fis, tokenName);
         } catch (IOException e) {
-            log.error("Error '{}' loading '{}' file!", e.getMessage(), filepath);
+            log.error("Error opening property file '{}'!", filepath);
+            return null;
+        }
+    }
+
+    private String getToken(InputStream is, String tokenName) {
+        properties = new Properties();
+
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            log.error("Error '{}' loading the property file!", e.getMessage());
             return null;
         }
 
         String tokenValue = properties.getProperty(tokenName);
 
-        if (tokenValue == null)
-            log.error("Property '{}' not found in '{}' file!", tokenName, filepath);
-
+        if (tokenValue == null) {
+            log.error("Property '{}' not found in the property file!", tokenName);
+            return null;
+        } else if (tokenValue.equals("")) {
+            // we do not allow empty tokens, so if an empty token was read, treat it as if no token was present
+            log.warn("Found empty property '{}' in the property file, ignoring it!", tokenName);
+            return null;
+        }
 
         return tokenValue;
-    }
-
-    private void loadProperties(String filepath) throws IOException {
-        InputStream fis = new FileInputStream(filepath);
-
-        properties = new Properties();
-        properties.load(fis);
-
-        fis.close();
     }
 }

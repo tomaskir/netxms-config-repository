@@ -13,6 +13,6 @@ public final class ReadOnlyAccessToken extends AccessToken {
 
     @Override
     String loadToken() {
-        return ConfigReader.getInstance().getReadOnlyAccessToken(ApplicationConfiguration.CONFIG_FILE_NAME.toString());
+        return ConfigReader.getInstance().getReadOnlyAccessToken();
     }
 }
