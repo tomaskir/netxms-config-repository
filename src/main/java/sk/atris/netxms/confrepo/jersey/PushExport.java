@@ -21,7 +21,7 @@ import java.io.InputStream;
 @Path("/push-export")
 public final class PushExport {
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.TEXT_XML)
     public Response postHandler(@QueryParam("accessToken") String providedAccessToken, InputStream incomingData) {
         NetxmsConfig receivedNetxmsConfig;
 
