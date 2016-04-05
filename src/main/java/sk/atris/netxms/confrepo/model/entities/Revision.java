@@ -2,8 +2,6 @@ package sk.atris.netxms.confrepo.model.entities;
 
 import lombok.Getter;
 
-import java.time.Instant;
-
 public class Revision extends Entity {
     @Getter
     private final String xmlCode;
@@ -23,7 +21,7 @@ public class Revision extends Entity {
         this.revisionMessage = revisionMessage;
         this.revisionVersion = revisionVersion;
 
-        this.timestamp = Instant.now().getEpochSecond();
+        this.timestamp = System.currentTimeMillis() / 1000;
     }
 
     public boolean xmlEquals(Revision r) {
