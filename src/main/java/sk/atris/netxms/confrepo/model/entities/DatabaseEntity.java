@@ -1,11 +1,9 @@
 package sk.atris.netxms.confrepo.model.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 abstract class DatabaseEntity {
     @Column
     @Id

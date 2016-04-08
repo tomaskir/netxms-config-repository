@@ -5,13 +5,12 @@ import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Slf4j
 public abstract class ConfigItem extends DatabaseEntity {
     @OneToMany
