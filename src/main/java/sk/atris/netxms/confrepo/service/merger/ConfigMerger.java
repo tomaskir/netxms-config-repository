@@ -18,6 +18,16 @@ public final class ConfigMerger {
     @Getter
     private final static ConfigMerger instance = new ConfigMerger();
 
+    /**
+     * Merge the provided {@link NetxmsConfig} object into the repository.<br>
+     * <br>
+     * This will parse all the objects present in the repositories of the {@link NetxmsConfig} object and:<br>
+     * - add the config items not currently in the {@link NetxmsConfigRepository} to the {@link NetxmsConfigRepository}<br>
+     * - for all config items already present in the {@link NetxmsConfigRepository}, add any newer revisions of any config item
+     * (if they are present in the provided {@link NetxmsConfig} object for that config item)<br>
+     *
+     * @param receivedNetxmsConfig object containing config items to be merged into the repository
+     */
     @Synchronized
     public void mergeConfiguration(NetxmsConfig receivedNetxmsConfig) {
         log.debug("Starting a merge of the received configuration.");
