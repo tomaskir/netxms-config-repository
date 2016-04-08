@@ -7,19 +7,19 @@ public class Revision extends Entity {
     private final String xmlCode;
 
     @Getter
-    private final String revisionMessage;
+    private final String message;
 
     @Getter
-    private final int revisionVersion;
+    private final int version;
 
     @Getter
     private final long timestamp;
 
     // Constructor
-    public Revision(String xmlCode, String revisionMessage, int revisionVersion) {
+    public Revision(String xmlCode, String message, int version) {
         this.xmlCode = xmlCode;
-        this.revisionMessage = revisionMessage;
-        this.revisionVersion = revisionVersion;
+        this.message = message;
+        this.version = version;
 
         this.timestamp = System.currentTimeMillis() / 1000;
     }

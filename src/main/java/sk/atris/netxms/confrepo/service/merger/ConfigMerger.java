@@ -99,7 +99,7 @@ public final class ConfigMerger {
 
                 // Now we can build a new Revision object here that has the values of the received Revision object,
                 // but with a correct version for the object in the config repository.
-                repoItem.addRevision(new Revision(r.getXmlCode(), r.getRevisionMessage(), repoItem.getNextFreeRevisionVersion()));
+                repoItem.addRevision(new Revision(r.getXmlCode(), r.getMessage(), repoItem.getNextRevisionVersion()));
             }
         } catch (InstanceNotFoundException ignored) {
             log.info("Adding a new item with GUID '{}' to the '{}' repository of the NetxmsConfigRepository.", item.getGuid(), item.getClass().getSimpleName());

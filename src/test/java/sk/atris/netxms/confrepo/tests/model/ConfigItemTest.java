@@ -9,8 +9,8 @@ public class ConfigItemTest {
         ConfigItem ci = new ConfigItem("guid") {
         };
 
-        int rv1 = ci.getNextFreeRevisionVersion();
-        int rv2 = ci.getNextFreeRevisionVersion();
+        int rv1 = ci.getNextRevisionVersion();
+        int rv2 = ci.getNextRevisionVersion();
 
         assert rv1 != rv2;
     }

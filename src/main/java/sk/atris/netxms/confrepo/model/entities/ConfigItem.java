@@ -15,14 +15,14 @@ public abstract class ConfigItem extends Entity {
     @Getter
     protected final String guid;
 
-    private int nextFreeRevisionVersion;
+    private int nextRevisionVersion;
 
     // Constructor
     public ConfigItem(String guid) {
         log.trace("Creating a new '{}' object.", this.getClass().getSimpleName());
 
         this.guid = guid;
-        this.nextFreeRevisionVersion = 1;
+        this.nextRevisionVersion = 1;
     }
 
     /**
@@ -31,8 +31,8 @@ public abstract class ConfigItem extends Entity {
      * @return int
      */
     @Synchronized
-    public final int getNextFreeRevisionVersion() {
-        return nextFreeRevisionVersion++;
+    public final int getNextRevisionVersion() {
+        return nextRevisionVersion++;
     }
 
     @Synchronized
@@ -59,7 +59,7 @@ public abstract class ConfigItem extends Entity {
         log.trace("Getting revision '{}' of a '{}' object.", requestedRevisionVersion, this.getClass().getSimpleName());
 
         for (Revision r : revisions)
-            if (r.getRevisionVersion() == requestedRevisionVersion)
+            if (r.getVersion() == requestedRevisionVersion)
                 return r;
 
         log.warn("Requested revision '{}' of config item '{}' was not found!", requestedRevisionVersion, guid);

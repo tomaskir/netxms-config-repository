@@ -150,7 +150,7 @@ public final class NetxmsXmlConfigParser {
     }
 
     private <T extends ConfigItem> void addRevision(T item, Element xmlElement, String revisionMessage) {
-        Revision revision = new Revision(xmlOutputter.outputString(xmlElement), revisionMessage, item.getNextFreeRevisionVersion());
+        Revision revision = new Revision(xmlOutputter.outputString(xmlElement), revisionMessage, item.getNextRevisionVersion());
         item.addRevision(revision);
     }
 
