@@ -28,6 +28,7 @@ public final class PushExport {
 
         log.info("POST to '/push-export' received, processing it.");
 
+        // validate access to the application
         try {
             WriteAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
@@ -43,17 +44,19 @@ public final class PushExport {
             return Response.status(500).entity(responseString).build();
         }
 
+        // parse the incoming XML document
         try {
             receivedNetxmsConfig = NetxmsXmlConfigParser.getInstance().parse(incomingData);
         } catch (NetxmsXmlConfigParserException e) {
-            log.info("Sending HTTP.400 in answer to '/push-export' POST.");
-
             Throwable ex = e;
             while (ex.getCause() != null)
                 ex = ex.getCause();
 
+            log.info("Sending HTTP.400 in answer to '/push-export' POST.");
             return Response.status(400).entity(ex.getMessage()).build();
         }
+
+        // add config items from the received XML document to the repository
         ConfigMerger.getInstance().mergeConfiguration(receivedNetxmsConfig);
 
         log.info("Sending HTTP.200 in answer to '/push-export' POST.");

@@ -21,10 +21,9 @@ public final class GetAvailableItems {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getHandler(@QueryParam("accessToken") String providedAccessToken) {
-        String responseJson;
-
         log.info("GET to '/get-available-items' received, processing it.");
 
+        // validate access to the application
         try {
             ReadAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
@@ -40,7 +39,8 @@ public final class GetAvailableItems {
             return Response.status(500).entity(responseString).build();
         }
 
-        responseJson = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
+        // build response JSON
+        String responseJson = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
 
         log.info("Sending HTTP.200 in answer to '/get-available-items' GET.");
         return Response.ok().entity(responseJson).build();

@@ -28,6 +28,7 @@ public final class GetItems {
 
         log.info("POST to '/get-items' received, processing it.");
 
+        // validate access to the application
         try {
             ReadAccessValidator.getInstance().check(providedAccessToken);
         } catch (AccessTokenInvalidException e) {
@@ -43,27 +44,27 @@ public final class GetItems {
             return Response.status(500).entity(responseString).build();
         }
 
+        // parse the item request JSON
         try {
             requestedConfigItems = ItemRequestJsonParser.getInstance().parse(incomingData);
         } catch (IOException | ItemRequestJsonParserException e) {
-            log.info("Sending HTTP.400 in answer to '/get-items' POST.");
-
             Throwable ex = e;
             while (ex.getCause() != null)
                 ex = ex.getCause();
 
+            log.info("Sending HTTP.400 in answer to '/get-items' POST.");
             return Response.status(400).entity(ex.getMessage()).build();
         }
 
+        // build the response XML document
         try {
             xmlString = ItemSupplier.getInstance().getItemsXml(requestedConfigItems);
         } catch (ConfigItemNotFoundException | JDOMException | IOException | NoConfigItemsRequestedException | RevisionNotFoundException e) {
-            log.info("Sending HTTP.400 in answer to '/get-items' POST.");
-
             Throwable ex = e;
             while (ex.getCause() != null)
                 ex = ex.getCause();
 
+            log.info("Sending HTTP.400 in answer to '/get-items' POST.");
             return Response.status(400).entity(ex.getMessage()).build();
         }
 
