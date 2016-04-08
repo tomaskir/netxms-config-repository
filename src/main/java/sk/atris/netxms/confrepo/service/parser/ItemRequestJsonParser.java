@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ItemRequestJsonParser {
+public final class ItemRequestJsonParser {
     @Getter
     private static final ItemRequestJsonParser instance = new ItemRequestJsonParser();
 

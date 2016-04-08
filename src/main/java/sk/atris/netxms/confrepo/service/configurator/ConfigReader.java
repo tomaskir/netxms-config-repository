@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ConfigReader {
+public final class ConfigReader {
     @Getter
     private final static ConfigReader instance = new ConfigReader();
 

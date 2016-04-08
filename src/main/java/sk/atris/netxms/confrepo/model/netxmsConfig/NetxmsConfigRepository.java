@@ -14,7 +14,7 @@ public final class NetxmsConfigRepository extends NetxmsConfig {
     private final static NetxmsConfigRepository instance = new NetxmsConfigRepository();
 
     @SuppressWarnings("unchecked")
-    public final <T extends ConfigItem> T getConfigItemByGuid(String guid) throws ConfigItemNotFoundException {
+    public <T extends ConfigItem> T getConfigItemByGuid(String guid) throws ConfigItemNotFoundException {
         log.debug("Finding a config item with GUID '{}' in the NetxmsConfigRepository.", guid);
 
         try {

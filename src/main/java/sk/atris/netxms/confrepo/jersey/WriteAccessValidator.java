@@ -10,13 +10,13 @@ import sk.atris.netxms.confrepo.service.token.ReadWriteAccessToken;
 // TODO: add tests
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class WriteAccessValidator {
+final class WriteAccessValidator {
     @Getter
     private static final WriteAccessValidator instance = new WriteAccessValidator();
 
     private final String applicationReadWriteAccessToken = ReadWriteAccessToken.getInstance().getToken();
 
-    final void check(String providedAccessToken) throws AccessTokenInvalidException, AccessTokenNotLoadedException {
+    void check(String providedAccessToken) throws AccessTokenInvalidException, AccessTokenNotLoadedException {
         if (applicationReadWriteAccessToken == null)
             throw new AccessTokenNotLoadedException();
 
