@@ -17,53 +17,41 @@ public final class ConfigReader {
     private final static ConfigReader instance = new ConfigReader();
 
     public String getReadOnlyAccessToken() {
-        String filename = ApplicationConfiguration.CONFIG_FILE_NAME.toString();
-
-        log.debug("Getting ReadOnly access token from '{}' property file on the classpath.", filename);
-
-        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+        return getReadOnlyAccessToken(ApplicationConfiguration.CONFIG_FILE_NAME.toString());
     }
 
+    /**
+     * This method should be directly called only from tests!
+     * For all other usage, call getReadOnlyAccessToken().
+     */
     public String getReadOnlyAccessToken(String filename) {
-        log.debug("Getting ReadOnly access token from '{}' property file (explicit location).", filename);
+        log.debug("Getting ReadOnly access token from '{}' property file on the classpath.", filename);
 
-        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+        return getPropertyValue(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
     }
 
     public String getReadWriteAccessToken() {
-        String filename = ApplicationConfiguration.CONFIG_FILE_NAME.toString();
+        return getReadWriteAccessToken(ApplicationConfiguration.CONFIG_FILE_NAME.toString());
+    }
 
+    /**
+     * This method should be directly called only from tests!
+     * For all other usage, call getReadWriteAccessToken().
+     */
+    public String getReadWriteAccessToken(String filename) {
         log.debug("Getting ReadWrite access token from '{}' property file on the classpath.", filename);
 
-        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
+        return getPropertyValue(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
     }
 
-    public String getReadWriteAccessToken(String filename) {
-        log.debug("Getting ReadWrite access token from '{}' property file (explicit location).", filename);
-
-        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
-    }
-
-    private String getTokenFromClasspathFile(String filename, String tokenName) {
+    private String getPropertyValue(String filename, String propertyName) {
         InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
         if (is == null) {
             log.error("Error opening property file '{}'!", filename);
             return null;
         }
 
-        String token = getToken(is, tokenName);
-
-        try {
-            is.close();
-        } catch (IOException ignored) {
-        }
-
-        return token;
-    }
-
-    private String getToken(InputStream is, String tokenName) {
         Properties properties = new Properties();
-
         try {
             properties.load(is);
         } catch (IOException e) {
@@ -71,17 +59,21 @@ public final class ConfigReader {
             return null;
         }
 
-        String tokenValue = properties.getProperty(tokenName);
+        String propertyValue = properties.getProperty(propertyName);
 
-        if (tokenValue == null) {
-            log.error("Property '{}' not found in the property file!", tokenName);
-            return null;
-        } else if (tokenValue.equals("")) {
-            // we do not allow empty tokens, so if an empty token was read, treat it as if no token was present
-            log.warn("Found empty property '{}' in the property file, ignoring it!", tokenName);
-            return null;
+        if (propertyValue == null) {
+            log.error("Property '{}' not found in the property file!", propertyName);
+        } else if (propertyValue.equals("")) {
+            // we do not allow empty property values, so if an empty property was read, treat it as if no property was present
+            log.warn("Found empty property '{}' in the property file, ignoring it!", propertyName);
+            propertyValue = null;
         }
 
-        return tokenValue;
+        try {
+            is.close();
+        } catch (IOException ignored) {
+        }
+
+        return propertyValue;
     }
 }
