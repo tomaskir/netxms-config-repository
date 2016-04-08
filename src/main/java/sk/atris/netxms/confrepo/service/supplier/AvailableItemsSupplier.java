@@ -101,7 +101,7 @@ public final class AvailableItemsSupplier {
     }
 
     private <T extends ConfigItem> ArrayNode getItemRevisionsForJson(T item) {
-        List<Revision> revisions =  item.getRevisionsShallowCopy();
+        List<Revision> revisions = item.getRevisionsShallowCopy();
         ArrayNode revisionsJson = jsonFactory.arrayNode();
 
         // loop over revisions from back to front to return them from newest to oldest

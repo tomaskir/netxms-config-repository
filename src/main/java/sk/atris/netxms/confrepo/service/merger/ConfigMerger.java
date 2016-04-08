@@ -102,7 +102,7 @@ public final class ConfigMerger {
                 repoItem.addRevision(new Revision(r.getXmlCode(), r.getRevisionMessage(), repoItem.getNextFreeRevisionVersion()));
             }
         } catch (InstanceNotFoundException ignored) {
-            log.info("Adding a new item with GUID '{}' to the '{}' repository of the NetxmsConfigRepository.", item.getGuid(),item.getClass().getSimpleName());
+            log.info("Adding a new item with GUID '{}' to the '{}' repository of the NetxmsConfigRepository.", item.getGuid(), item.getClass().getSimpleName());
             NetxmsConfigRepository.getInstance().addItem(item);
         }
     }

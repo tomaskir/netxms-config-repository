@@ -6,7 +6,8 @@ import sk.atris.netxms.confrepo.model.entities.ConfigItem;
 public class ConfigItemTest {
     @Test
     public void testNextFreeVersion() {
-        ConfigItem ci = new ConfigItem("guid") {};
+        ConfigItem ci = new ConfigItem("guid") {
+        };
 
         int rv1 = ci.getNextFreeRevisionVersion();
         int rv2 = ci.getNextFreeRevisionVersion();

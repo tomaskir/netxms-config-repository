@@ -108,11 +108,11 @@ public final class NetxmsXmlConfigParser {
                         newConfigItem = new Event(newConfigItemGuid, cfgItemXml.getChildText("name"));
                         break;
                     case TEMPLATES:
-                       // build a Template object
+                        // build a Template object
                         newConfigItem = new Template(newConfigItemGuid, cfgItemXml.getChildText("name"));
                         break;
                     case TRAPS:
-                       // build a Trap object
+                        // build a Trap object
                         newConfigItem = new Trap(newConfigItemGuid, cfgItemXml.getChildText("description"));
                         break;
                     case RULES:

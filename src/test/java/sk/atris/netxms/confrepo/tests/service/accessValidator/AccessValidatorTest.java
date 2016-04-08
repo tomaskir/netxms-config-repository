@@ -53,7 +53,7 @@ public class AccessValidatorTest {
      * Normally the AccessValidator classes read the application access tokens directly from the configuration file.
      * For tests, this is of course un-wanted behaviour, so this method can set the tokens using reflection to arbitrary values.
      *
-     * @param readOnlyToken application readOnly access token
+     * @param readOnlyToken  application readOnly access token
      * @param readWriteToken application readWrite access token
      * @throws ReflectiveOperationException
      */
