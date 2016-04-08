@@ -20,7 +20,7 @@ import java.util.List;
 public final class GetItems {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.TEXT_XML)
     public Response getHandler(@QueryParam("accessToken") String providedAccessToken, InputStream incomingData) {
         String xmlString;
         List<RequestedConfigItem> requestedConfigItems;
