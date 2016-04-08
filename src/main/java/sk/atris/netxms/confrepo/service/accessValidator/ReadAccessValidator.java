@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
 
-// TODO: add tests
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ReadAccessValidator extends AccessValidator {
     @Getter
