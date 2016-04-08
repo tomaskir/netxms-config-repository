@@ -5,6 +5,7 @@ import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
+import sk.atris.netxms.confrepo.service.accessValidator.ReadAccessValidator;
 import sk.atris.netxms.confrepo.service.supplier.AvailableItemsSupplier;
 
 import javax.ws.rs.GET;

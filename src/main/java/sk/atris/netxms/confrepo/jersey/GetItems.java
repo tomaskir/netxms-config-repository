@@ -5,6 +5,7 @@ import org.jdom2.JDOMException;
 import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 import sk.atris.netxms.confrepo.exceptions.*;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
+import sk.atris.netxms.confrepo.service.accessValidator.ReadAccessValidator;
 import sk.atris.netxms.confrepo.service.parser.ItemRequestJsonParser;
 import sk.atris.netxms.confrepo.service.supplier.ItemSupplier;
 

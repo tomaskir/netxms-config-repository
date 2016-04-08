@@ -6,6 +6,7 @@ import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.service.accessValidator.WriteAccessValidator;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
 import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
 
