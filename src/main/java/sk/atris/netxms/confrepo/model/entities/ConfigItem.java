@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public abstract class ConfigItem extends Entity {
+public abstract class ConfigItem extends DatabaseEntity {
     private final List<Revision> revisions = new ArrayList<>();
 
     @Getter

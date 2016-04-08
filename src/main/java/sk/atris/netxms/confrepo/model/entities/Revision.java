@@ -2,7 +2,7 @@ package sk.atris.netxms.confrepo.model.entities;
 
 import lombok.Getter;
 
-public class Revision extends Entity {
+public class Revision extends DatabaseEntity {
     @Getter
     private final String xmlCode;
 
