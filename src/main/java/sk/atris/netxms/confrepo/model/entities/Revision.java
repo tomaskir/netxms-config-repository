@@ -2,16 +2,26 @@ package sk.atris.netxms.confrepo.model.entities;
 
 import lombok.Getter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "revisions")
 public class Revision extends DatabaseEntity {
+    @Column(name = "xml")
     @Getter
     private final String xmlCode;
 
+    @Column
     @Getter
     private final String message;
 
+    @Column
     @Getter
     private final int version;
 
+    @Column
     @Getter
     private final long timestamp;
 

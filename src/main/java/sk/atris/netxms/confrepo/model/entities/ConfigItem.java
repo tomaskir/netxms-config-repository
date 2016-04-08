@@ -5,16 +5,23 @@ import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@MappedSuperclass
 @Slf4j
 public abstract class ConfigItem extends DatabaseEntity {
+    @OneToMany
     private final List<Revision> revisions = new ArrayList<>();
 
+    @Column
     @Getter
     protected final String guid;
 
+    @Column(name = "next_version")
     private int nextRevisionVersion;
 
     // Constructor
