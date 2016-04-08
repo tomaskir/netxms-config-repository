@@ -17,8 +17,6 @@ public final class ConfigReader {
     @Getter
     private final static ConfigReader instance = new ConfigReader();
 
-    private Properties properties;
-
     public String getReadOnlyAccessToken() {
         String filename = ApplicationConfiguration.CONFIG_FILE_NAME.toString();
 
@@ -27,10 +25,10 @@ public final class ConfigReader {
         return getTokenFromClasspathFile(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
     }
 
-    public String getReadOnlyAccessToken(String filepath) {
-        log.debug("Getting ReadOnly access token from '{}' property file (explicit location).", filepath);
+    public String getReadOnlyAccessToken(String filename) {
+        log.debug("Getting ReadOnly access token from '{}' property file (explicit location).", filename);
 
-        return getTokenFromFile(filepath, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
+        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READONLY_ACCESS_TOKEN_PROPERTY.toString());
     }
 
     public String getReadWriteAccessToken() {
@@ -41,10 +39,10 @@ public final class ConfigReader {
         return getTokenFromClasspathFile(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
     }
 
-    public String getReadWriteAccessToken(String filepath) {
-        log.debug("Getting ReadWrite access token from '{}' property file (explicit location).", filepath);
+    public String getReadWriteAccessToken(String filename) {
+        log.debug("Getting ReadWrite access token from '{}' property file (explicit location).", filename);
 
-        return getTokenFromFile(filepath, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
+        return getTokenFromClasspathFile(filename, ApplicationConfiguration.READWRITE_ACCESS_TOKEN_PROPERTY.toString());
     }
 
     private String getTokenFromClasspathFile(String filename, String tokenName) {
@@ -64,17 +62,8 @@ public final class ConfigReader {
         return token;
     }
 
-    private String getTokenFromFile(String filepath, String tokenName) {
-        try (InputStream fis = new FileInputStream(filepath)) {
-            return getToken(fis, tokenName);
-        } catch (IOException e) {
-            log.error("Error opening property file '{}'!", filepath);
-            return null;
-        }
-    }
-
     private String getToken(InputStream is, String tokenName) {
-        properties = new Properties();
+        Properties properties = new Properties();
 
         try {
             properties.load(is);

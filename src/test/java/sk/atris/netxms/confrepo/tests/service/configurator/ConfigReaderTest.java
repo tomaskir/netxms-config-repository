@@ -22,42 +22,42 @@ public class ConfigReaderTest {
 
     @Test
     public void testMissingProperties1() {
-        String token = configReader.getReadOnlyAccessToken("src/test/resources/empty.properties");
+        String token = configReader.getReadOnlyAccessToken("empty.properties");
 
         assert token == null;
     }
 
     @Test
     public void testMissingProperties2() {
-        String token = configReader.getReadWriteAccessToken("src/test/resources/empty.properties");
+        String token = configReader.getReadWriteAccessToken("empty.properties");
 
         assert token == null;
     }
 
     @Test
     public void testNoValueProperty1() {
-        String token = configReader.getReadWriteAccessToken("src/test/resources/no_value.properties");
+        String token = configReader.getReadWriteAccessToken("no_value.properties");
 
         assert token == null;
     }
 
     @Test
     public void testNoValueProperty2() {
-        String token = configReader.getReadWriteAccessToken("src/test/resources/no_value.properties");
+        String token = configReader.getReadWriteAccessToken("no_value.properties");
 
         assert token == null;
     }
 
     @Test
     public void testReadWriteTokenLoading() {
-        String token = configReader.getReadWriteAccessToken("src/test/resources/accessToken.properties");
+        String token = configReader.getReadWriteAccessToken("accessToken.properties");
 
         assert token.equals("test1");
     }
 
     @Test
     public void testReadOnlyTokenLoading() {
-        String token = configReader.getReadOnlyAccessToken("src/test/resources/accessToken.properties");
+        String token = configReader.getReadOnlyAccessToken("accessToken.properties");
 
         assert token.equals("test2");
     }
