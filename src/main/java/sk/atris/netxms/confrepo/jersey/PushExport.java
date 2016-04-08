@@ -47,10 +47,11 @@ public final class PushExport {
         } catch (NetxmsXmlConfigParserException e) {
             log.info("Sending HTTP.400 in answer to '/push-export' POST.");
 
-            if (e.getCause() != null)
-                return Response.status(400).entity(e.getCause().getMessage()).build();
-            else
-                return Response.status(400).entity(e.getMessage()).build();
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            return Response.status(400).entity(ex.getMessage()).build();
         }
         ConfigMerger.getInstance().mergeConfiguration(receivedNetxmsConfig);
 

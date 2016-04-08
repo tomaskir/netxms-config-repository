@@ -47,10 +47,11 @@ public final class GetItems {
         } catch (IOException | ItemRequestJsonParserException e) {
             log.info("Sending HTTP.400 in answer to '/get-items' POST.");
 
-            if (e.getCause() != null)
-                return Response.status(400).entity(e.getCause().getMessage()).build();
-            else
-                return Response.status(400).entity(e.getMessage()).build();
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            return Response.status(400).entity(ex.getMessage()).build();
         }
 
         try {
@@ -58,10 +59,11 @@ public final class GetItems {
         } catch (ConfigItemNotFoundException | JDOMException | IOException | NoConfigItemsRequestedException | RevisionNotFoundException e) {
             log.info("Sending HTTP.400 in answer to '/get-items' POST.");
 
-            if (e.getCause() != null)
-                return Response.status(400).entity(e.getCause().getMessage()).build();
-            else
-                return Response.status(400).entity(e.getMessage()).build();
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            return Response.status(400).entity(ex.getMessage()).build();
         }
 
         log.info("Sending HTTP.200 in answer to '/get-items' POST.");
