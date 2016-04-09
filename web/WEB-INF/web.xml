@@ -6,6 +6,10 @@
 
     <display-name>NetXMS configuration repository</display-name>
 
+    <listener>
+        <listener-class>sk.atris.netxms.confrepo.service.application.ApplicationManager</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>rest-service</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
