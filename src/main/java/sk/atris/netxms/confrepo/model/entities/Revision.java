@@ -1,6 +1,7 @@
 package sk.atris.netxms.confrepo.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,22 +9,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "revisions")
+@NoArgsConstructor
 public class Revision extends DatabaseEntity {
-    @Column(name = "xml")
+    @Column(name = "xml", length = 65536)
     @Getter
-    private final String xmlCode;
+    private String xmlCode;
 
     @Column
     @Getter
-    private final String message;
+    private String message;
 
     @Column
     @Getter
-    private final int version;
+    private int version;
 
     @Column
     @Getter
-    private final long timestamp;
+    private long timestamp;
 
     // Constructor
     public Revision(String xmlCode, String message, int version) {

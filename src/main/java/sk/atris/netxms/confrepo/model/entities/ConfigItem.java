@@ -1,6 +1,7 @@
 package sk.atris.netxms.confrepo.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
@@ -12,16 +13,21 @@ import java.util.List;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Slf4j
+@NoArgsConstructor()
 public abstract class ConfigItem extends DatabaseEntity {
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     private final List<Revision> revisions = new ArrayList<>();
 
     @Column
     @Getter
-    protected final String guid;
+    protected String guid;
 
     @Column(name = "next_version")
     private int nextRevisionVersion;
+
+    // used by the Lombok @Synchronized annotation
+    @Transient
+    private final Object $lock = new Object();
 
     // Constructor
     public ConfigItem(String guid) {
@@ -46,6 +52,13 @@ public abstract class ConfigItem extends DatabaseEntity {
         log.trace("Adding a revision to a '{}' object.", this.getClass().getSimpleName());
 
         revisions.add(r);
+    }
+
+    @Synchronized
+    public final void removeRevision(Revision r) {
+        log.trace("Removing a revision from a '{}' object.", this.getClass().getSimpleName());
+
+        revisions.remove(r);
     }
 
     @Synchronized
