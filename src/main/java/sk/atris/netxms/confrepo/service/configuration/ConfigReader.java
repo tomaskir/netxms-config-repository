@@ -67,10 +67,10 @@ public final class ConfigReader {
         String propertyValue = properties.getProperty(propertyName);
 
         if (propertyValue == null) {
-            log.error("Property '{}' not found in the property file!", propertyName);
+            log.error("Property '{}' not found in loaded properties!", propertyName);
         } else if (propertyValue.equals("")) {
             // we do not allow empty property values, so if an empty property was read, treat it as if no property was present
-            log.warn("Found empty property '{}' in the property file, ignoring it!", propertyName);
+            log.warn("Found empty property '{}' in loaded properties, ignoring it!", propertyName);
             propertyValue = null;
         }
 
