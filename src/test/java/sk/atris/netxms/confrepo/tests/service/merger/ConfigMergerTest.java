@@ -3,41 +3,47 @@ package sk.atris.netxms.confrepo.tests.service.merger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import sk.atris.netxms.confrepo.exceptions.DatabaseException;
+import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.model.entities.*;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
+import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
-import sk.atris.netxms.confrepo.tests.TestEnvironment;
+import sk.atris.netxms.confrepo.tests.MockedConfigRepository;
+import sk.atris.netxms.confrepo.tests.MockedDatabase;
 
 public class ConfigMergerTest {
-    private final NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
     private final ConfigMerger configMerger = ConfigMerger.getInstance();
 
-    private final DciSummaryTable originalDciSummaryTable = TestEnvironment.getDciSummaryTable();
-    private final EppRule originalEppRule = TestEnvironment.getEppRule();
-    private final Event originalEvent = TestEnvironment.getEvent();
-    private final ObjectTool originalObjectTool = TestEnvironment.getObjectTool();
-    private final Script originalScript = TestEnvironment.getScript();
-    private final Template originalTemplate = TestEnvironment.getTemplate();
-    private final Trap originalTrap = TestEnvironment.getTrap();
+    private final DciSummaryTable originalDciSummaryTable = MockedConfigRepository.getDciSummaryTable();
+    private final EppRule originalEppRule = MockedConfigRepository.getEppRule();
+    private final Event originalEvent = MockedConfigRepository.getEvent();
+    private final ObjectTool originalObjectTool = MockedConfigRepository.getObjectTool();
+    private final Script originalScript = MockedConfigRepository.getScript();
+    private final Template originalTemplate = MockedConfigRepository.getTemplate();
+    private final Trap originalTrap = MockedConfigRepository.getTrap();
 
     private final Revision originalRevision = new Revision("xml-code", "Revision message.", 1);
     private final Revision newRevision = new Revision("xml-code-updated", "New revision message.", 2);
 
     @Before
-    public void environmentSetup() {
-        TestEnvironment.setup(originalRevision);
+    public void environmentSetup() throws ReflectiveOperationException, DatabaseException, RepositoryInitializationException {
+        MockedDatabase.setup();
+        MockedConfigRepository.setup(originalRevision);
     }
 
     @After
-    public void environmentCleanup() {
-        TestEnvironment.cleanup();
+    public void environmentCleanup() throws ReflectiveOperationException, DatabaseException, RepositoryInitializationException {
+        MockedConfigRepository.cleanup();
+        MockedDatabase.cleanup();
     }
 
     @Test
-    public void testEmptyMerge() {
+    public void testEmptyMerge() throws DatabaseException, RepositoryInitializationException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         // build an empty NetxmsConfig
-        NetxmsConfig netxmsConfig = new NetxmsConfig();
+        ReceivedNetxmsConfig netxmsConfig = new ReceivedNetxmsConfig();
 
         // merge it to the NetxmsConfigRepository
         configMerger.mergeConfiguration(netxmsConfig);
@@ -61,9 +67,11 @@ public class ConfigMergerTest {
     }
 
     @Test
-    public void testNoItemsAdded() {
+    public void testNoItemsAdded() throws DatabaseException, RepositoryInitializationException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         // build a NetxmsConfig object containing no new config items
-        NetxmsConfig netxmsConfig = new NetxmsConfig();
+        ReceivedNetxmsConfig netxmsConfig = new ReceivedNetxmsConfig();
 
         netxmsConfig.addItem(originalDciSummaryTable);
         netxmsConfig.addItem(originalEppRule);
@@ -87,7 +95,9 @@ public class ConfigMergerTest {
     }
 
     @Test
-    public void testAllItemsAdded() {
+    public void testAllItemsAdded() throws DatabaseException, RepositoryInitializationException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         // build a NetxmsConfig object containing all possible new config items
         DciSummaryTable newDciSummaryTable = new DciSummaryTable(originalDciSummaryTable.getGuid() + "-new", originalDciSummaryTable.getTitle() + "-new");
         EppRule newEppRule = new EppRule(originalEppRule.getGuid() + "-new", originalEppRule.getComment() + "-new");
@@ -97,15 +107,15 @@ public class ConfigMergerTest {
         Template newTemplate = new Template(originalTemplate.getGuid() + "-new", originalTemplate.getName() + "-new");
         Trap newTrap = new Trap(originalTrap.getGuid() + "-new", originalTrap.getDescription() + "-new");
 
-        newDciSummaryTable.addRevision(originalRevision);
-        newEppRule.addRevision(originalRevision);
-        newEvent.addRevision(originalRevision);
-        newObjectTool.addRevision(originalRevision);
-        newScript.addRevision(originalRevision);
-        newTemplate.addRevision(originalRevision);
-        newTrap.addRevision(originalRevision);
+        newDciSummaryTable.addRevision(newRevision);
+        newEppRule.addRevision(newRevision);
+        newEvent.addRevision(newRevision);
+        newObjectTool.addRevision(newRevision);
+        newScript.addRevision(newRevision);
+        newTemplate.addRevision(newRevision);
+        newTrap.addRevision(newRevision);
 
-        NetxmsConfig netxmsConfig = new NetxmsConfig();
+        ReceivedNetxmsConfig netxmsConfig = new ReceivedNetxmsConfig();
 
         netxmsConfig.addItem(newDciSummaryTable);
         netxmsConfig.addItem(newEppRule);
@@ -129,7 +139,9 @@ public class ConfigMergerTest {
     }
 
     @Test
-    public void testNoRevisionChanges() {
+    public void testNoRevisionChanges() throws DatabaseException, RepositoryInitializationException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         // build a NetxmsConfig object containing no new revisions
         DciSummaryTable newDciSummaryTable = new DciSummaryTable(originalDciSummaryTable.getGuid(), originalDciSummaryTable.getTitle());
         EppRule newEppRule = new EppRule(originalEppRule.getGuid(), originalEppRule.getComment());
@@ -147,7 +159,7 @@ public class ConfigMergerTest {
         newTemplate.addRevision(originalRevision);
         newTrap.addRevision(originalRevision);
 
-        NetxmsConfig netxmsConfig = new NetxmsConfig();
+        ReceivedNetxmsConfig netxmsConfig = new ReceivedNetxmsConfig();
 
         netxmsConfig.addItem(newDciSummaryTable);
         netxmsConfig.addItem(newEppRule);
@@ -171,7 +183,9 @@ public class ConfigMergerTest {
     }
 
     @Test
-    public void testFullRevisionMerge() {
+    public void testFullRevisionMerge() throws DatabaseException, RepositoryInitializationException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         // build a NetxmsConfig object containing new revisions of all existing items
         DciSummaryTable newDciSummaryTable = new DciSummaryTable(originalDciSummaryTable.getGuid(), originalDciSummaryTable.getTitle());
         EppRule newEppRule = new EppRule(originalEppRule.getGuid(), originalEppRule.getComment());
@@ -189,7 +203,7 @@ public class ConfigMergerTest {
         newTemplate.addRevision(newRevision);
         newTrap.addRevision(newRevision);
 
-        NetxmsConfig netxmsConfig = new NetxmsConfig();
+        ReceivedNetxmsConfig netxmsConfig = new ReceivedNetxmsConfig();
 
         netxmsConfig.addItem(newDciSummaryTable);
         netxmsConfig.addItem(newEppRule);

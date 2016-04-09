@@ -1,12 +1,13 @@
 package sk.atris.netxms.confrepo.tests;
 
 import lombok.Getter;
+import sk.atris.netxms.confrepo.exceptions.DatabaseException;
+import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
+import sk.atris.netxms.confrepo.service.database.DbObjectHandler;
 
-public class TestEnvironment {
-    private final static NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
-
+public class MockedConfigRepository {
     @Getter
     private final static DciSummaryTable dciSummaryTable = new DciSummaryTable("guid1", "title");
 
@@ -28,7 +29,9 @@ public class TestEnvironment {
     @Getter
     private final static Trap trap = new Trap("guid7", "description");
 
-    public static void setup(Revision revision) {
+    public static void setup(Revision revision) throws RepositoryInitializationException, DatabaseException {
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+
         dciSummaryTable.addRevision(revision);
         eppRule.addRevision(revision);
         event.addRevision(revision);
@@ -36,6 +39,8 @@ public class TestEnvironment {
         script.addRevision(revision);
         template.addRevision(revision);
         trap.addRevision(revision);
+
+        DbObjectHandler.getInstance().saveToDb(revision);
 
         netxmsConfigRepository.addItem(dciSummaryTable);
         netxmsConfigRepository.addItem(eppRule);
@@ -46,8 +51,8 @@ public class TestEnvironment {
         netxmsConfigRepository.addItem(trap);
     }
 
-    public static void cleanup() {
-        netxmsConfigRepository.clearAllConfig();
+    public static void cleanup() throws RepositoryInitializationException, DatabaseException {
+        NetxmsConfigRepository.getInstance().clearAllConfig();
 
         dciSummaryTable.clearAllRevisions();
         eppRule.clearAllRevisions();

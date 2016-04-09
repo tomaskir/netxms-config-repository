@@ -3,7 +3,7 @@ package sk.atris.netxms.confrepo.tests.service.parser;
 import org.junit.Test;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
 import sk.atris.netxms.confrepo.model.entities.*;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
 
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ public class NetxmsXmlConfigParserTest {
 
     @Test
     public void testBasicParsing() throws IOException, NetxmsXmlConfigParserException {
-        NetxmsConfig receivedConfig;
+        ReceivedNetxmsConfig receivedConfig;
 
         InputStream fis = new FileInputStream("src/test/resources/valid_config.xml");
         receivedConfig = netxmsXmlConfigParser.parse(fis);
@@ -32,7 +32,7 @@ public class NetxmsXmlConfigParserTest {
 
     @Test
     public void testAllParsing() throws IOException, NetxmsXmlConfigParserException {
-        NetxmsConfig receivedConfig;
+        ReceivedNetxmsConfig receivedConfig;
 
         InputStream fis = new FileInputStream("src/test/resources/full_config.xml");
         receivedConfig = netxmsXmlConfigParser.parse(fis);
@@ -69,7 +69,7 @@ public class NetxmsXmlConfigParserTest {
 
     @Test
     public void testInvalidConfigParsing() throws IOException, NetxmsXmlConfigParserException {
-        NetxmsConfig receivedConfig;
+        ReceivedNetxmsConfig receivedConfig;
 
         InputStream fis = new FileInputStream("src/test/resources/invalid_config.xml");
         receivedConfig = netxmsXmlConfigParser.parse(fis);

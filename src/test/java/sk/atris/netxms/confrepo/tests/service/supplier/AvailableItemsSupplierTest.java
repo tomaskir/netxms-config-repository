@@ -2,12 +2,19 @@ package sk.atris.netxms.confrepo.tests.service.supplier;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
+import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.model.entities.*;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
+import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
+import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
 import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
 import sk.atris.netxms.confrepo.service.supplier.AvailableItemsSupplier;
+import sk.atris.netxms.confrepo.tests.MockedDatabase;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,16 +27,29 @@ import java.util.List;
 public class AvailableItemsSupplierTest {
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Before
+    public void environmentSetup() throws ReflectiveOperationException {
+        MockedDatabase.setup();
+    }
+
+    @After
+    public void environmentCleanup() throws ReflectiveOperationException, RepositoryInitializationException, DatabaseException {
+        NetxmsConfigRepository.getInstance().clearAllConfig();
+        MockedDatabase.cleanup();
+    }
+
     @Test
-    public void testAllAvailableItemsJson1() throws IOException, NetxmsXmlConfigParserException, NoSuchFieldException, IllegalAccessException {
+    public void testAllAvailableItemsJson1() throws IOException, NetxmsXmlConfigParserException, NoSuchFieldException, IllegalAccessException, DatabaseException, RepositoryInitializationException {
         InputStream fis1 = new FileInputStream("src/test/resources/full_config.xml");
-        NetxmsConfig netxmsConfig = NetxmsXmlConfigParser.getInstance().parse(fis1);
+        ReceivedNetxmsConfig netxmsConfig = NetxmsXmlConfigParser.getInstance().parse(fis1);
         fis1.close();
 
         // adjust the timestamp on all latest revisions to match the timestamp in the validation file
         adjustAllLastRevisionsTimestamp(netxmsConfig, 1);
 
-        String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(netxmsConfig);
+        ConfigMerger.getInstance().mergeConfiguration(netxmsConfig);
+
+        String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
         JsonNode fromGeneratedString = mapper.readTree(generatedJsonString);
 
         InputStream fis2 = new FileInputStream("src/test/resources/allConfigItems1.json");
@@ -40,9 +60,9 @@ public class AvailableItemsSupplierTest {
     }
 
     @Test
-    public void testAllAvailableItemsJson2() throws IOException, NetxmsXmlConfigParserException, NoSuchFieldException, IllegalAccessException {
+    public void testAllAvailableItemsJson2() throws IOException, NetxmsXmlConfigParserException, NoSuchFieldException, IllegalAccessException, DatabaseException, RepositoryInitializationException {
         InputStream fis1 = new FileInputStream("src/test/resources/full_config.xml");
-        NetxmsConfig netxmsConfig = NetxmsXmlConfigParser.getInstance().parse(fis1);
+        ReceivedNetxmsConfig netxmsConfig = NetxmsXmlConfigParser.getInstance().parse(fis1);
         fis1.close();
 
         // adjust the timestamp on all latest revisions to match the timestamp in the validation file
@@ -54,7 +74,9 @@ public class AvailableItemsSupplierTest {
         // adjust the timestamp again, since we added a revision
         adjustAllLastRevisionsTimestamp(netxmsConfig, 2);
 
-        String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(netxmsConfig);
+        ConfigMerger.getInstance().mergeConfiguration(netxmsConfig);
+
+        String generatedJsonString = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
         JsonNode fromGeneratedString = mapper.readTree(generatedJsonString);
 
         InputStream fis2 = new FileInputStream("src/test/resources/allConfigItems2.json");
@@ -64,7 +86,7 @@ public class AvailableItemsSupplierTest {
         assert fromGeneratedString.toString().equals(fromValidationFile.toString());
     }
 
-    private void adjustAllLastRevisionsTimestamp(NetxmsConfig netxmsConfig, long newTimestamp) throws NoSuchFieldException, IllegalAccessException {
+    private void adjustAllLastRevisionsTimestamp(ReceivedNetxmsConfig netxmsConfig, long newTimestamp) throws NoSuchFieldException, IllegalAccessException {
         List<Revision> revisionList = new ArrayList<>();
 
         revisionList.add(netxmsConfig.getRepository(DciSummaryTable.class).getLastConfigItem().getLatestRevision());
@@ -90,7 +112,7 @@ public class AvailableItemsSupplierTest {
         }
     }
 
-    private void addRevisionToAllConfigItems(NetxmsConfig netxmsConfig, Revision r) {
+    private void addRevisionToAllConfigItems(ReceivedNetxmsConfig netxmsConfig, Revision r) {
         netxmsConfig.getRepository(DciSummaryTable.class).getLastConfigItem().addRevision(r);
         netxmsConfig.getRepository(EppRule.class).getLastConfigItem().addRevision(r);
         netxmsConfig.getRepository(Event.class).getLastConfigItem().addRevision(r);

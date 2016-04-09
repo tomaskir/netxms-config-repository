@@ -8,13 +8,11 @@ import org.jdom2.output.XMLOutputter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
-import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
-import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
+import sk.atris.netxms.confrepo.exceptions.*;
 import sk.atris.netxms.confrepo.model.entities.Revision;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 import sk.atris.netxms.confrepo.service.supplier.ItemSupplier;
-import sk.atris.netxms.confrepo.tests.TestEnvironment;
+import sk.atris.netxms.confrepo.tests.MockedConfigRepository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,22 +27,22 @@ public class ItemSupplierTest {
     private final Revision revision = new Revision("<test></test>", "Test revision.", revisionVersion);
 
     @Before
-    public void environmentSetup() {
-        TestEnvironment.setup(revision);
+    public void environmentSetup() throws DatabaseException, RepositoryInitializationException {
+        MockedConfigRepository.setup(revision);
     }
 
     @After
-    public void environmentCleanup() {
-        TestEnvironment.cleanup();
+    public void environmentCleanup() throws DatabaseException, RepositoryInitializationException {
+        MockedConfigRepository.cleanup();
     }
 
     @Test(expected = NoConfigItemsRequestedException.class)
-    public void testNoRequestedItems() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException {
+    public void testNoRequestedItems() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException, RepositoryInitializationException {
         itemSupplier.getItemsXml(new ArrayList<RequestedConfigItem>());
     }
 
     @Test
-    public void testFullGeneratedXml() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException {
+    public void testFullGeneratedXml() throws JDOMException, NoConfigItemsRequestedException, ConfigItemNotFoundException, IOException, RevisionNotFoundException, RepositoryInitializationException {
         List<RequestedConfigItem> requestedItems = new ArrayList<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getCompactFormat());
