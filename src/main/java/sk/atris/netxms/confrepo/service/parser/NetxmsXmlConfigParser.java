@@ -8,6 +8,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
@@ -25,7 +26,7 @@ public final class NetxmsXmlConfigParser {
     private final static NetxmsXmlConfigParser instance = new NetxmsXmlConfigParser();
 
     private final SAXBuilder saxBuilder = new SAXBuilder();
-    private final XMLOutputter xmlOutputter = new XMLOutputter();
+    private final XMLOutputter xmlOutputter = new XMLOutputter(Format.getCompactFormat());
 
     /**
      * Parse the supplied InputStream for NetXMS XML configuration.
