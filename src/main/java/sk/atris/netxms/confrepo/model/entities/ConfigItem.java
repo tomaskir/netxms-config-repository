@@ -13,7 +13,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Slf4j
 public abstract class ConfigItem extends DatabaseEntity {
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private final List<Revision> revisions = new ArrayList<>();
 
     @Column
