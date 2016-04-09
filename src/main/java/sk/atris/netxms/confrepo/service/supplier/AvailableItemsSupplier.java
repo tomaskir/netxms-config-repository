@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
 import sk.atris.netxms.confrepo.model.entities.*;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public final class AvailableItemsSupplier {
 
     private final JsonNodeFactory jsonFactory = JsonNodeFactory.instance;
 
-    public String getAllAvailableItemsJson(NetxmsConfig netxmsConfig) {
+    public String getAllAvailableItemsJson(NetxmsConfigRepository netxmsConfig) {
         ObjectNode allItemsJson = jsonFactory.objectNode();
 
         log.debug("Starting to prepare all available items JSON.");

@@ -14,6 +14,7 @@ import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
 import sk.atris.netxms.confrepo.enums.NetxmsGeneratedConfigXml;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
+import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
 import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
@@ -29,18 +30,20 @@ public final class ItemSupplier {
     @Getter
     private static final ItemSupplier instance = new ItemSupplier();
 
-    private final NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
+//    private final NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
 
     private final SAXBuilder saxBuilder = new SAXBuilder();
     private final XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
 
-    public <T extends ConfigItem> String getItemsXml(List<RequestedConfigItem> requestedItems) throws ConfigItemNotFoundException, JDOMException, IOException, NoConfigItemsRequestedException, RevisionNotFoundException {
+    public <T extends ConfigItem> String getItemsXml(List<RequestedConfigItem> requestedItems) throws ConfigItemNotFoundException, JDOMException, IOException, NoConfigItemsRequestedException, RevisionNotFoundException, RepositoryInitializationException {
         log.debug("Starting to prepare requested configuration XML.");
 
         if (requestedItems.size() == 0) {
             log.warn("No requested items were present in a configuration XML request!");
             throw new NoConfigItemsRequestedException("No config items were requested.");
         }
+
+        NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
 
         Document xmlDoc = new Document();
         seedConfigXml(xmlDoc);

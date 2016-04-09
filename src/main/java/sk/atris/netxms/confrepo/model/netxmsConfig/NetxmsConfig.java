@@ -1,18 +1,29 @@
 package sk.atris.netxms.confrepo.model.netxmsConfig;
 
 import lombok.extern.slf4j.Slf4j;
+import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.model.entities.*;
 import sk.atris.netxms.confrepo.model.repository.Repository;
 
 @Slf4j
-public class NetxmsConfig {
-    final Repository<DciSummaryTable> dciSummaryTableRepository = new Repository<>();
-    final Repository<EppRule> eppRuleRepository = new Repository<>();
-    final Repository<Event> eventRepository = new Repository<>();
-    final Repository<ObjectTool> objectToolRepository = new Repository<>();
-    final Repository<Script> scriptRepository = new Repository<>();
-    final Repository<Template> templateRepository = new Repository<>();
-    final Repository<Trap> trapRepository = new Repository<>();
+public abstract class NetxmsConfig {
+    final Repository<DciSummaryTable> dciSummaryTableRepository;
+    final Repository<EppRule> eppRuleRepository;
+    final Repository<Event> eventRepository;
+    final Repository<ObjectTool> objectToolRepository;
+    final Repository<Script> scriptRepository;
+    final Repository<Template> templateRepository;
+    final Repository<Trap> trapRepository;
+
+    NetxmsConfig(boolean persistency) {
+        dciSummaryTableRepository = new Repository<>(persistency);
+        eppRuleRepository = new Repository<>(persistency);
+        eventRepository = new Repository<>(persistency);
+        objectToolRepository = new Repository<>(persistency);
+        scriptRepository = new Repository<>(persistency);
+        templateRepository = new Repository<>(persistency);
+        trapRepository = new Repository<>(persistency);
+    }
 
     /**
      * This method is used to return a repository of objects of the the class of provided object.
@@ -72,7 +83,7 @@ public class NetxmsConfig {
         throw new RuntimeException("Could not find requested class repository!");
     }
 
-    public final <T extends ConfigItem> void addItem(T item) {
+    public final <T extends ConfigItem> void addItem(T item) throws DatabaseException {
         getRepository(item).addConfigItem(item);
     }
 
@@ -80,7 +91,7 @@ public class NetxmsConfig {
      * Clears all the internal repositories.
      * Use with caution!
      */
-    public final void clearAllConfig() {
+    public final void clearAllConfig() throws DatabaseException {
         log.warn("Clearing all configuration from a '{}' object!", this.getClass().getSimpleName());
 
         getRepository(DciSummaryTable.class).clearAllConfigItems();

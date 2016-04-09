@@ -11,9 +11,10 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
+import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
 import sk.atris.netxms.confrepo.model.entities.*;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,10 +33,10 @@ public final class NetxmsXmlConfigParser {
      * Parse the supplied InputStream for NetXMS XML configuration.
      *
      * @param receiveStream InputStream on which the NetXMS configuration XML is received
-     * @return {@link NetxmsConfig} object
+     * @return {@link ReceivedNetxmsConfig} object
      * @throws NetxmsXmlConfigParserException
      */
-    public NetxmsConfig parse(InputStream receiveStream) throws NetxmsXmlConfigParserException {
+    public ReceivedNetxmsConfig parse(InputStream receiveStream) throws NetxmsXmlConfigParserException {
         Document xmlDoc;
 
         log.trace("Starting to parse a received InputStream.");
@@ -56,8 +57,8 @@ public final class NetxmsXmlConfigParser {
         return extractConfiguration(elements, revisionMessage);
     }
 
-    private NetxmsConfig extractConfiguration(List<Element> elements, String revisionMessage) throws NetxmsXmlConfigParserException {
-        NetxmsConfig receivedNetxmsConfig = new NetxmsConfig();
+    private ReceivedNetxmsConfig extractConfiguration(List<Element> elements, String revisionMessage) throws NetxmsXmlConfigParserException {
+        ReceivedNetxmsConfig receivedNetxmsConfig = new ReceivedNetxmsConfig();
 
         log.debug("Starting to extract configuration from the received XML.");
         log.trace("Started building a new ReceivedNetxmsConfig object.");
@@ -155,9 +156,14 @@ public final class NetxmsXmlConfigParser {
         item.addRevision(revision);
     }
 
-    private <T extends ConfigItem> void addItemToReceivedNetxmsConfig(NetxmsConfig config, T item) {
+    private <T extends ConfigItem> void addItemToReceivedNetxmsConfig(ReceivedNetxmsConfig config, T item) {
         log.trace("Adding a new '{}' from the received XML to the '{}' object.", item.getClass().getSimpleName(), config.getClass().getSimpleName());
 
-        config.addItem(item);
+        try {
+            config.addItem(item);
+        } catch (DatabaseException ignored) {
+            // this class only uses non-persistent subclass of NetxmsConfig, this exception should never be thrown
+            throw new RuntimeException("This method should never reach this point!");
+        }
     }
 }
