@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
+import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.service.accessValidator.ReadAccessValidator;
 import sk.atris.netxms.confrepo.service.supplier.AvailableItemsSupplier;
@@ -40,7 +41,17 @@ public final class GetAvailableItems {
         }
 
         // build response JSON
-        String responseJson = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
+        String responseJson;
+        try {
+            responseJson = AvailableItemsSupplier.getInstance().getAllAvailableItemsJson(NetxmsConfigRepository.getInstance());
+        } catch (RepositoryInitializationException e) {
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            log.info("Sending HTTP.500 in answer to '/push-export' POST.");
+            return Response.status(500).entity(ex.getMessage()).build();
+        }
 
         log.info("Sending HTTP.200 in answer to '/get-available-items' GET.");
         return Response.ok().entity(responseJson).build();

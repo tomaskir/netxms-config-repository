@@ -59,13 +59,20 @@ public final class GetItems {
         // build the response XML document
         try {
             xmlString = ItemSupplier.getInstance().getItemsXml(requestedConfigItems);
-        } catch (ConfigItemNotFoundException | JDOMException | IOException | NoConfigItemsRequestedException | RevisionNotFoundException e) {
+        } catch (ConfigItemNotFoundException | NoConfigItemsRequestedException | RevisionNotFoundException e) {
             Throwable ex = e;
             while (ex.getCause() != null)
                 ex = ex.getCause();
 
             log.info("Sending HTTP.400 in answer to '/get-items' POST.");
             return Response.status(400).entity(ex.getMessage()).build();
+        } catch (RepositoryInitializationException | JDOMException | IOException e) {
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            log.info("Sending HTTP.500 in answer to '/push-export' POST.");
+            return Response.status(500).entity(ex.getMessage()).build();
         }
 
         log.info("Sending HTTP.200 in answer to '/get-items' POST.");

@@ -2,10 +2,8 @@ package sk.atris.netxms.confrepo.jersey;
 
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.ApplicationConfiguration;
-import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
-import sk.atris.netxms.confrepo.exceptions.AccessTokenNotLoadedException;
-import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
-import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfig;
+import sk.atris.netxms.confrepo.exceptions.*;
+import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import sk.atris.netxms.confrepo.service.accessValidator.WriteAccessValidator;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
 import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
@@ -22,9 +20,9 @@ import java.io.InputStream;
 @Path("/push-export")
 public final class PushExport {
     @POST
-    @Consumes(MediaType.TEXT_XML)
+    @Consumes(MediaType.APPLICATION_XML)
     public Response postHandler(@QueryParam("accessToken") String providedAccessToken, InputStream incomingData) {
-        NetxmsConfig receivedNetxmsConfig;
+        ReceivedNetxmsConfig receivedNetxmsConfig;
 
         log.info("POST to '/push-export' received, processing it.");
 
@@ -57,7 +55,16 @@ public final class PushExport {
         }
 
         // add config items from the received XML document to the repository
-        ConfigMerger.getInstance().mergeConfiguration(receivedNetxmsConfig);
+        try {
+            ConfigMerger.getInstance().mergeConfiguration(receivedNetxmsConfig);
+        } catch (RepositoryInitializationException | DatabaseException e) {
+            Throwable ex = e;
+            while (ex.getCause() != null)
+                ex = ex.getCause();
+
+            log.info("Sending HTTP.500 in answer to '/push-export' POST.");
+            return Response.status(500).entity(ex.getMessage()).build();
+        }
 
         log.info("Sending HTTP.200 in answer to '/push-export' POST.");
         return Response.ok().build();
