@@ -1,0 +1,5 @@
+Missing features:
+  Log4j2 programatic configuration
+  Externalize logging verbocity
+
+  Hibernate connection pool
