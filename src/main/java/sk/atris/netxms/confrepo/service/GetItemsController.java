@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenInvalidException;
 import sk.atris.netxms.confrepo.exceptions.AccessTokenNotSetException;
 import sk.atris.netxms.confrepo.service.auth.ReadAccessValidator;
-import sk.atris.netxms.confrepo.service.auth.WriteAccessValidator;
 
 @Slf4j
 @RestController
