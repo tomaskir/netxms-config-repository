@@ -86,22 +86,22 @@ public class NetxmsXmlConfigParserTest {
 
     @Test(expected = NetxmsXmlConfigParserException.class)
     public void testMissingGuidParsing() throws IOException, NetxmsXmlConfigParserException {
-        InputStream fis = new FileInputStream("src/test/resources/missing_guid_config.xml");
-        netxmsXmlConfigParser.parse(fis);
-        fis.close();
+        try (InputStream fis = new FileInputStream("src/test/resources/missing_guid_config.xml")) {
+            netxmsXmlConfigParser.parse(fis);
+        }
     }
 
     @Test(expected = NetxmsXmlConfigParserException.class)
     public void testInvalidXmlParsing() throws IOException, NetxmsXmlConfigParserException {
-        InputStream fis = new FileInputStream("src/test/resources/empty.xml");
-        netxmsXmlConfigParser.parse(fis);
-        fis.close();
+        try (InputStream fis = new FileInputStream("src/test/resources/empty.xml")) {
+            netxmsXmlConfigParser.parse(fis);
+        }
     }
 
     @Test(expected = NetxmsXmlConfigParserException.class)
     public void testInvalidGuidParsing() throws IOException, NetxmsXmlConfigParserException {
-        InputStream fis = new FileInputStream("src/test/resources/invalid_guid_config.xml");
-        netxmsXmlConfigParser.parse(fis);
-        fis.close();
+        try (InputStream fis = new FileInputStream("src/test/resources/invalid_guid_config.xml")) {
+            netxmsXmlConfigParser.parse(fis);
+        }
     }
 }
