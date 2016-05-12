@@ -4,7 +4,7 @@
 	<description></description>
 	<events>
 		<event id="17">
-			<guid>guid-1</guid>
+			<guid>ed4cd712-a267-4569-80bd-cdccf4a90905</guid>
 			<name>SYS_THRESHOLD_REACHED</name>
 			<code>17</code>
 			<severity>1</severity>
@@ -13,7 +13,7 @@
 			<description>Generated when threshold value reached for specific data collection item.&#x0D;&#x0A;Parameters:&#x0D;&#x0A;   1) Parameter name&#x0D;&#x0A;   2) Item description&#x0D;&#x0A;   3) Threshold value&#x0D;&#x0A;   4) Actual value&#x0D;&#x0A;   5) Data collection item ID&#x0D;&#x0A;   6) Instance&#x0D;&#x0A;   7) Repeat flag</description>
 		</event>
 		<event id="18">
-			<guid>guid-2</guid>
+			<guid>b170a1af-167c-444f-b2de-91b4bb677260</guid>
 			<name>SYS_THRESHOLD_REARMED</name>
 			<code>18</code>
 			<severity>0</severity>
@@ -206,14 +206,14 @@
 	</templates>
 	<traps>
 		<trap id="1">
-			<guid>guid-3</guid>
+			<guid>156019c3-cc94-47d7-96e9-34cbc3b9ccb9</guid>
 			<oid>.1.3.6.1.6.3.1.1.5.1</oid>
 			<description>Generic coldStart trap</description>
 			<userTag></userTag>
 			<event>SNMP_COLD_START</event>
 		</trap>
 		<trap id="2">
-			<guid>guid-4</guid>
+			<guid>6d80a075-8bae-4836-a8fa-9a5315e45cbc</guid>
 			<oid>.1.3.6.1.6.3.1.1.5.2</oid>
 			<description>Generic warmStart trap</description>
 			<userTag></userTag>
@@ -268,7 +268,7 @@
 	</rules>
 	<scripts>
 		<script id="4">
-			<guid>guid-5</guid>
+			<guid>065835fa-e1db-44d8-8829-a12489309b96</guid>
 			<name>DCI::SampleTransform</name>
 			<code>sub dci_transform()&#x0D;&#x0A;{&#x0D;&#x0A;   return $1 + 1;&#x0D;&#x0A;}&#x0D;&#x0A;</code>
 		</script>

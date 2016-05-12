@@ -34,7 +34,7 @@
     }
   },
   "events": {
-    "guid-1": {
+    "ed4cd712-a267-4569-80bd-cdccf4a90905": {
       "name": "SYS_NODE_ADDED",
       "instances": [
         {
@@ -68,7 +68,7 @@
     }
   },
   "scripts": {
-    "guid-3": {
+    "156019c3-cc94-47d7-96e9-34cbc3b9ccb9": {
       "name": "DCI::SampleTransform",
       "instances": [
         {
@@ -102,7 +102,7 @@
     }
   },
   "traps": {
-    "guid-2": {
+    "b170a1af-167c-444f-b2de-91b4bb677260": {
       "description": "Generic authenticationFailure trap",
       "instances": [
         {

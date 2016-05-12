@@ -47,7 +47,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(EppRule.class).getLastConfigItem().getComment().equals("Generate alarm when MAC address change detected on interface");
 
         // events section parsing
-        assert receivedConfig.getRepository(Event.class).getLastConfigItem().getGuid().equals("guid-1");
+        assert receivedConfig.getRepository(Event.class).getLastConfigItem().getGuid().equals("ed4cd712-a267-4569-80bd-cdccf4a90905");
         assert receivedConfig.getRepository(Event.class).getLastConfigItem().getName().equals("SYS_NODE_ADDED");
 
         // objectTools section parsing
@@ -55,7 +55,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(ObjectTool.class).getLastConfigItem().getName().equals("Restart &agent");
 
         // scripts section parsing
-        assert receivedConfig.getRepository(Script.class).getLastConfigItem().getGuid().equals("guid-3");
+        assert receivedConfig.getRepository(Script.class).getLastConfigItem().getGuid().equals("156019c3-cc94-47d7-96e9-34cbc3b9ccb9");
         assert receivedConfig.getRepository(Script.class).getLastConfigItem().getName().equals("DCI::SampleTransform");
 
         // templates section parsing
@@ -63,7 +63,7 @@ public class NetxmsXmlConfigParserTest {
         assert receivedConfig.getRepository(Template.class).getLastConfigItem().getName().equals("Server Performance");
 
         // traps section parsing
-        assert receivedConfig.getRepository(Trap.class).getLastConfigItem().getGuid().equals("guid-2");
+        assert receivedConfig.getRepository(Trap.class).getLastConfigItem().getGuid().equals("b170a1af-167c-444f-b2de-91b4bb677260");
         assert receivedConfig.getRepository(Trap.class).getLastConfigItem().getDescription().equals("Generic authenticationFailure trap");
     }
 
