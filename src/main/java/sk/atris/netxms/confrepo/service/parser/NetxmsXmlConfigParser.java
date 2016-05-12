@@ -19,6 +19,7 @@ import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -99,9 +100,15 @@ public final class NetxmsXmlConfigParser {
                 ConfigItem newConfigItem;
                 String newConfigItemGuid = cfgItemXml.getChildText("guid");
 
-                if (newConfigItemGuid == null) {
+                // validation of the GUID present in the config item
+                try {
+                    UUID.fromString(newConfigItemGuid);
+                } catch (NullPointerException ignored) {
                     log.warn("A config item without a GUID was present in a received NetXMS configuration XML!");
                     throw new NetxmsXmlConfigParserException("A config item without a GUID was present in the provided XML.");
+                } catch (IllegalArgumentException ignored) {
+                    log.warn("A config item with an invalid GUID was present in a received NetXMS configuration XML!");
+                    throw new NetxmsXmlConfigParserException("A config item with an invalid GUID was present in the provided XML.");
                 }
 
                 switch (currentConfigSection) {

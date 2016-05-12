@@ -97,4 +97,11 @@ public class NetxmsXmlConfigParserTest {
         netxmsXmlConfigParser.parse(fis);
         fis.close();
     }
+
+    @Test(expected = NetxmsXmlConfigParserException.class)
+    public void testInvalidGuidParsing() throws IOException, NetxmsXmlConfigParserException {
+        InputStream fis = new FileInputStream("src/test/resources/invalid_guid_config.xml");
+        netxmsXmlConfigParser.parse(fis);
+        fis.close();
+    }
 }
