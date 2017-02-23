@@ -1,0 +1,41 @@
+{
+  "rules": {
+    "dcdd6f93-2f9e-4c3e-97cb-95b6847f13ce": {
+      "comments": "Terminate threshold violation alarms",
+      "instances": [
+        {
+          "version": 1,
+          "timestamp": 1460200916,
+          "comment": ""
+        }
+      ]
+    },
+    "47fd5c32-b6c9-48b8-99fb-c389dde63bee": {
+      "comments": "Generate alarm on threshold violation",
+      "instances": [
+        {
+          "version": 2,
+          "timestamp": 1460200955,
+          "comment": "changed something"
+        },
+        {
+          "version": 1,
+          "timestamp": 1460200916,
+          "comment": ""
+        }
+      ]
+    }
+  },
+  "templates": {
+    "22a93d86-a72b-47e7-8178-0040548a3a47": {
+      "name": "Server Performance",
+      "instances": [
+        {
+          "version": 1,
+          "timestamp": 1460200916,
+          "comment": ""
+        }
+      ]
+    }
+  }
+}
