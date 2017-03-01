@@ -6,5 +6,7 @@ import sk.atris.netxms.confrepo.data.model.Revision;
 
 @Repository
 public interface RevisionRepository extends JpaRepository<Revision, Long> {
+
     Revision getByConfigItemIdAndVersion(int configItemId, int version);
+
 }

@@ -1,15 +1,20 @@
 package sk.atris.netxms.confrepo.data.model;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter
 abstract class DatabaseEntity {
+
     @Id
+    @Column
     @GeneratedValue
     private Long id;
+
+    @Column
+    private long timestamp = System.currentTimeMillis() / 1000;
+
 }
