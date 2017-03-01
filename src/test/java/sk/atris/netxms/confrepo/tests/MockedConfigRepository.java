@@ -3,7 +3,7 @@ package sk.atris.netxms.confrepo.tests;
 import lombok.Getter;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.service.database.DbObjectHandler;
 
@@ -29,7 +29,7 @@ public class MockedConfigRepository {
     @Getter
     private final static Trap trap = new Trap("guid7", "description");
 
-    public static void setup(Revision revision) throws RepositoryInitializationException, DatabaseException {
+    public static void setup(ItemRevision revision) throws RepositoryInitializationException, DatabaseException {
         NetxmsConfigRepository netxmsConfigRepository = NetxmsConfigRepository.getInstance();
 
         dciSummaryTable.addRevision(revision);

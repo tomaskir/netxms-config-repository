@@ -1,16 +1,17 @@
-package sk.atris.netxms.confrepo.model.entities;
+package sk.atris.netxms.confrepo.model.entities.configItem;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sk.atris.netxms.confrepo.model.entities.DatabaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "revisions")
+@Table(name = "item_revisions")
 @NoArgsConstructor
-public class Revision extends DatabaseEntity {
+public class ItemRevision extends DatabaseEntity {
     @Column(name = "xml", length = 65536)
     @Getter
     private String xmlCode;
@@ -28,7 +29,7 @@ public class Revision extends DatabaseEntity {
     private long timestamp;
 
     // Constructor
-    public Revision(String xmlCode, String message, int version) {
+    public ItemRevision(String xmlCode, String message, int version) {
         this.xmlCode = xmlCode;
         this.message = message;
         this.version = version;
@@ -36,7 +37,7 @@ public class Revision extends DatabaseEntity {
         this.timestamp = System.currentTimeMillis() / 1000;
     }
 
-    public boolean xmlEquals(Revision r) {
+    public boolean xmlEquals(ItemRevision r) {
         return xmlCode.equals(r.getXmlCode());
     }
 }

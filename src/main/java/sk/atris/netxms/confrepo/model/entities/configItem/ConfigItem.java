@@ -1,10 +1,11 @@
-package sk.atris.netxms.confrepo.model.entities;
+package sk.atris.netxms.confrepo.model.entities.configItem;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
+import sk.atris.netxms.confrepo.model.entities.DatabaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,10 +14,10 @@ import java.util.List;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Slf4j
-@NoArgsConstructor()
+@NoArgsConstructor
 public abstract class ConfigItem extends DatabaseEntity {
     @OneToMany(fetch = FetchType.EAGER)
-    private final List<Revision> revisions = new ArrayList<>();
+    private final List<ItemRevision> revisions = new ArrayList<>();
 
     @Column
     @Getter
@@ -48,14 +49,14 @@ public abstract class ConfigItem extends DatabaseEntity {
     }
 
     @Synchronized
-    public final void addRevision(Revision r) {
+    public final void addRevision(ItemRevision r) {
         log.trace("Adding a revision to a '{}' object.", this.getClass().getSimpleName());
 
         revisions.add(r);
     }
 
     @Synchronized
-    public final void removeRevision(Revision r) {
+    public final void removeRevision(ItemRevision r) {
         log.trace("Removing a revision from a '{}' object.", this.getClass().getSimpleName());
 
         revisions.remove(r);
@@ -67,17 +68,17 @@ public abstract class ConfigItem extends DatabaseEntity {
     }
 
     @Synchronized
-    public final List<Revision> getRevisionsShallowCopy() {
+    public final List<ItemRevision> getRevisionsShallowCopy() {
         log.trace("A shallow copy of a revision list for a '{}' config item was requested, returning it.", this.getClass().getSimpleName());
 
         return new ArrayList<>(revisions);
     }
 
     @Synchronized
-    public final Revision getRevision(int requestedRevisionVersion) throws RevisionNotFoundException {
+    public final ItemRevision getRevision(int requestedRevisionVersion) throws RevisionNotFoundException {
         log.trace("Getting revision '{}' of a '{}' object.", requestedRevisionVersion, this.getClass().getSimpleName());
 
-        for (Revision r : revisions)
+        for (ItemRevision r : revisions)
             if (r.getVersion() == requestedRevisionVersion)
                 return r;
 
@@ -86,7 +87,7 @@ public abstract class ConfigItem extends DatabaseEntity {
     }
 
     @Synchronized
-    public final Revision getLatestRevision() {
+    public final ItemRevision getLatestRevision() {
         return revisions.get(revisions.size() - 1);
     }
 

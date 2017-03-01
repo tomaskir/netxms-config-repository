@@ -1,7 +1,7 @@
 package sk.atris.netxms.confrepo.tests.model;
 
 import org.junit.Test;
-import sk.atris.netxms.confrepo.model.entities.ConfigItem;
+import sk.atris.netxms.confrepo.model.entities.configItem.ConfigItem;
 
 public class ConfigItemTest {
     @Test

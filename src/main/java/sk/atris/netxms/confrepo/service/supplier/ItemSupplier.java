@@ -16,7 +16,7 @@ import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.NoConfigItemsRequestedException;
 import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
 import sk.atris.netxms.confrepo.exceptions.RevisionNotFoundException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.model.util.RequestedConfigItem;
 

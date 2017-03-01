@@ -2,7 +2,7 @@ package sk.atris.netxms.confrepo.tests.service.parser;
 
 import org.junit.Test;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import sk.atris.netxms.confrepo.service.parser.NetxmsXmlConfigParser;
 

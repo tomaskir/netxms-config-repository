@@ -2,7 +2,7 @@ package sk.atris.netxms.confrepo.model.netxmsConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.repository.Repository;
 
 @Slf4j

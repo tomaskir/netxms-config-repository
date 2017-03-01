@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.service.database.DbObjectHandler;
 
 @Slf4j

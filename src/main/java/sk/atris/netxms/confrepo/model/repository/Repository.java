@@ -4,7 +4,7 @@ import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.exceptions.ConfigItemNotFoundException;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
-import sk.atris.netxms.confrepo.model.entities.ConfigItem;
+import sk.atris.netxms.confrepo.model.entities.configItem.ConfigItem;
 import sk.atris.netxms.confrepo.service.database.DbObjectHandler;
 
 import java.util.ArrayList;

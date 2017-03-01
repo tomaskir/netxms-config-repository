@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 
 import java.util.List;
@@ -101,12 +101,12 @@ public final class AvailableItemsSupplier {
     }
 
     private <T extends ConfigItem> ArrayNode getItemRevisionsForJson(T item) {
-        List<Revision> revisions = item.getRevisionsShallowCopy();
+        List<ItemRevision> revisions = item.getRevisionsShallowCopy();
         ArrayNode revisionsJson = jsonFactory.arrayNode();
 
         // loop over revisions from back to front to return them from newest to oldest
         for (int i = item.getRevisionCount() - 1; i >= 0; i--) {
-            Revision r = revisions.get(i);
+            ItemRevision r = revisions.get(i);
 
             ObjectNode revision = jsonFactory.objectNode();
 

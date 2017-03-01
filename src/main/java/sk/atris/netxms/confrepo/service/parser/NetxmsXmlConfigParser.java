@@ -13,7 +13,7 @@ import org.jdom2.output.XMLOutputter;
 import sk.atris.netxms.confrepo.enums.NetxmsConfigSections;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.NetxmsXmlConfigParserException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 
 import java.io.IOException;
@@ -159,7 +159,7 @@ public final class NetxmsXmlConfigParser {
     }
 
     private <T extends ConfigItem> void addRevision(T item, Element xmlElement, String revisionMessage) {
-        Revision revision = new Revision(xmlOutputter.outputString(xmlElement), revisionMessage, item.getNextRevisionVersion());
+        ItemRevision revision = new ItemRevision(xmlOutputter.outputString(xmlElement), revisionMessage, item.getNextRevisionVersion());
         item.addRevision(revision);
     }
 

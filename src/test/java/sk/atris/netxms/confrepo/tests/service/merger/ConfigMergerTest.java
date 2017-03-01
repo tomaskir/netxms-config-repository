@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
 import sk.atris.netxms.confrepo.exceptions.RepositoryInitializationException;
-import sk.atris.netxms.confrepo.model.entities.*;
+import sk.atris.netxms.confrepo.model.entities.configItem.*;
 import sk.atris.netxms.confrepo.model.netxmsConfig.NetxmsConfigRepository;
 import sk.atris.netxms.confrepo.model.netxmsConfig.ReceivedNetxmsConfig;
 import sk.atris.netxms.confrepo.service.merger.ConfigMerger;
@@ -23,8 +23,8 @@ public class ConfigMergerTest {
     private final Template originalTemplate = MockedConfigRepository.getTemplate();
     private final Trap originalTrap = MockedConfigRepository.getTrap();
 
-    private final Revision originalRevision = new Revision("xml-code", "Revision message.", 1);
-    private final Revision newRevision = new Revision("xml-code-updated", "New revision message.", 2);
+    private final ItemRevision originalRevision = new ItemRevision("xml-code", "Revision message.", 1);
+    private final ItemRevision newRevision = new ItemRevision("xml-code-updated", "New revision message.", 2);
 
     @Before
     public void environmentSetup() throws ReflectiveOperationException, DatabaseException, RepositoryInitializationException {

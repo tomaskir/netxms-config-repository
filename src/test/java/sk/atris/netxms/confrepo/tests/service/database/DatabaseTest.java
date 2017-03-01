@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sk.atris.netxms.confrepo.exceptions.DatabaseException;
-import sk.atris.netxms.confrepo.model.entities.Revision;
 import sk.atris.netxms.confrepo.service.database.DbConnectionManager;
 import sk.atris.netxms.confrepo.service.database.DbObjectHandler;
 import sk.atris.netxms.confrepo.tests.MockedDatabase;
