@@ -13,8 +13,9 @@ import sk.atris.netxms.confrepo.service.auth.WriteAccessValidator;
 @RestController
 @RequestMapping("/rest-api/push-export")
 public final class PushExportController {
+
     @Autowired
-    WriteAccessValidator writeAccessValidator;
+    private WriteAccessValidator writeAccessValidator;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.TEXT_XML_VALUE)
     public ResponseEntity postHandler(@RequestParam("accessToken") String providedAccessToken, @RequestBody String requestBody) {
@@ -39,4 +40,5 @@ public final class PushExportController {
 
         return ResponseEntity.status(200).body(requestBody);
     }
+
 }

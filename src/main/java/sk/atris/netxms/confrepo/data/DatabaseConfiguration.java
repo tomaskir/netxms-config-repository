@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DatabaseConfiguration {
+
     @Value("${database.file.path}")
     private String dbFilePath;
 
@@ -31,4 +32,5 @@ public class DatabaseConfiguration {
                 .password(dbPass)
                 .build();
     }
+
 }

@@ -13,8 +13,9 @@ import sk.atris.netxms.confrepo.service.auth.ReadAccessValidator;
 @RestController
 @RequestMapping("/rest-api/get-available-items")
 public final class GetAvailableItemsController {
+
     @Autowired
-    ReadAccessValidator readAccessValidator;
+    private ReadAccessValidator readAccessValidator;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getHandler(@RequestParam("accessToken") String providedAccessToken, @RequestBody String requestBody) {
@@ -39,4 +40,5 @@ public final class GetAvailableItemsController {
 
         return ResponseEntity.status(200).body(requestBody);
     }
+
 }

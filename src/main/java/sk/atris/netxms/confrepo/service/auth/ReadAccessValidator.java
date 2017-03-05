@@ -6,6 +6,7 @@ import sk.atris.netxms.confrepo.exceptions.AccessTokenNotSetException;
 
 @Component
 public final class ReadAccessValidator extends AccessValidator {
+
     @Override
     public void check(String providedAccessToken) throws AccessTokenInvalidException, AccessTokenNotSetException {
         if (appReadOnlyAccessToken.equals("") && appReadWriteAccessToken.equals(""))
@@ -24,4 +25,5 @@ public final class ReadAccessValidator extends AccessValidator {
 
         throw new AccessTokenInvalidException();
     }
+
 }
