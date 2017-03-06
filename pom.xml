@@ -135,7 +135,7 @@
 
                 <configuration>
                     <excludes>
-                        <exclude>*.conf</exclude>
+                        <exclude>*.properties</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -145,7 +145,7 @@
                 <artifactId>maven-war-plugin</artifactId>
 
                 <configuration>
-                    <packagingExcludes>WEB-INF/classes/*.conf</packagingExcludes>
+                    <packagingExcludes>WEB-INF/classes/*.properties</packagingExcludes>
                 </configuration>
             </plugin>
 
