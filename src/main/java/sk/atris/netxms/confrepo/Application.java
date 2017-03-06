@@ -70,7 +70,7 @@ public class Application extends SpringBootServletInitializer {
 
             System.out.println("Loading properties file '" + propertiesFilePath + "'");
 
-            InputStream propertiesStream = null;
+            InputStream propertiesStream;
             try {
                 propertiesStream = new FileInputStream(propertiesFilePath);
 
@@ -110,6 +110,7 @@ public class Application extends SpringBootServletInitializer {
                 }
             }
         }
+
     }
 
 }
